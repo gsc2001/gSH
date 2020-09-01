@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 #ifndef __GLOBAL_H
 #define __GLOBAL_H

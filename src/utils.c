@@ -21,3 +21,16 @@ char *replaceHomeDir(char *str)
         }
     }
 }
+
+char *replaceTilda(char *str)
+{
+    if (str[0] == '~')
+    {
+        char *path = (char *)malloc(MAX_LEN);
+        path[0] = '\0';
+        strcpy(path, HOME);
+        strcat(path, str + 1);
+        return path;
+    }
+    return str;
+}

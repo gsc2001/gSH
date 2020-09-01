@@ -16,12 +16,11 @@ debug: bin/gSH
 bin/gSH: $(OBJECTS)
 	@echo "Linking Objects ..."
 	$(COMMAND) -o bin/gSH $(OBJECTS)
-	ctags -R .
 
 $(BUILD)/main.o: $(SRC)/main.c $(INC)/shell.h
 	$(COMMAND) -o $(BUILD)/main.o -c $(SRC)/main.c
 
-$(BUILD)/shell.o: $(SRC)/shell.c $(INC)/shell.h $(INC)/globals.h $(INC)/parse.h $(INC)/prompt.h $(INC)/mpwd.h
+$(BUILD)/shell.o: $(SRC)/shell.c $(wildcard $(INC)/*.h)
 	$(COMMAND)  -o $(BUILD)/shell.o -c $(SRC)/shell.c
 	
 $(BUILD)/prompt.o: $(SRC)/prompt.c $(INC)/prompt.h $(INC)/globals.h $(INC)/utils.h $(INC)/errorHandler.h
@@ -36,8 +35,11 @@ $(BUILD)/utils.o: $(SRC)/utils.c $(INC)/utils.h $(INC)/globals.h
 $(BUILD)/parse.o: $(SRC)/parse.c $(INC)/parse.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/parse.o -c $(SRC)/parse.c
 
-$(BUILD)/mpwd.o: $(SRC)/mpwd.c $(INC)/mpwd.h $(INC)/globals.h
+$(BUILD)/mpwd.o: $(SRC)/mpwd.c $(INC)/mpwd.h $(INC)/globals.h $(INC)/errorHandler.h
 	$(COMMAND)  -o $(BUILD)/mpwd.o -c $(SRC)/mpwd.c
 
+$(BUILD)/cd.o: $(SRC)/cd.c $(INC)/cd.h $(INC)/globals.h $(INC)/errorHandler.h
+	$(COMMAND)  -o $(BUILD)/cd.o -c $(SRC)/cd.c
+	
 clean: 
 	rm $(BUILD)/* bin/gSH

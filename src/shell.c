@@ -2,6 +2,7 @@
 #include "prompt.h"
 #include "parse.h"
 #include "mpwd.h"
+#include "cd.h"
 
 void init()
 {
@@ -9,15 +10,17 @@ void init()
     if (!getcwd(HOME, MAX_LEN))
         perror("Getting Home directory");
 }
-const int builtInN = 1;
+const int builtInN = 2;
 
 const char *builtInComs[] = {
     "pwd",
+    "cd",
 };
 
 // built in command functions
 void (*builtInComExec[])(Command c) = {
     pwdExec,
+    cdExec,
 };
 
 void execCommand(Command c)

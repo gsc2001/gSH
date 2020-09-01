@@ -1,6 +1,3 @@
-# ctags file
-tags
-
 # build and exectuable files
 build/*.o
 bin/gSH

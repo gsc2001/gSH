@@ -7,5 +7,6 @@ brief: some basic utility functions
 
 // replace the home dir string with ~
 char *replaceHomeDir(char *);
+char *replaceTilda(char *);
 
 #endif // __UTILS_H
