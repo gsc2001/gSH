@@ -3,6 +3,7 @@
 #include "parse.h"
 #include "mpwd.h"
 #include "cd.h"
+#include "echo.h"
 
 void init()
 {
@@ -56,10 +57,20 @@ void listen()
         if (inpsize < 0)
             break;
         inp[strlen(inp) - 1] = ';';
+
+        char *inpCopy = (char *)malloc(strlen(inp) + 1);
+        inpCopy[0] = '\0';
+        strcpy(inpCopy, inp);
+
         // parse inp
-        ParsedCommands parsed = parse(inp);
+        ParsedCommands parsed = parse(inpCopy);
         for (int i = 0; i < parsed.n; i++)
-            execCommand(parsed.commands[i]);
+        {
+            if (!strcmp(parsed.commands[i].cmd, "echo"))
+                echo(inp);
+            else
+                execCommand(parsed.commands[i]);
+        }
         if (DEBUG)
         {
             fprintf(stderr, "\n\n\n\n===========DEBUG===========\n");

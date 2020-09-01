@@ -1,12 +1,5 @@
 #include "parse.h"
-
-void replaceTabs(char *str)
-{
-    size_t len = strlen(str);
-    for (int i = 0; i < len; i++)
-        if (str[i] == '\t')
-            str[i] = ' ';
-}
+#include "utils.h"
 
 Command parseCommand(char *command_)
 {

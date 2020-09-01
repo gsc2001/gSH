@@ -32,7 +32,7 @@ $(BUILD)/errorHandler.o: $(SRC)/errorHandler.c $(INC)/errorHandler.h $(INC)/glob
 $(BUILD)/utils.o: $(SRC)/utils.c $(INC)/utils.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/utils.o -c $(SRC)/utils.c
 
-$(BUILD)/parse.o: $(SRC)/parse.c $(INC)/parse.h $(INC)/globals.h
+$(BUILD)/parse.o: $(SRC)/parse.c $(INC)/parse.h $(INC)/globals.h $(INC)/utils.h
 	$(COMMAND)  -o $(BUILD)/parse.o -c $(SRC)/parse.c
 
 $(BUILD)/mpwd.o: $(SRC)/mpwd.c $(INC)/mpwd.h $(INC)/globals.h $(INC)/errorHandler.h
@@ -40,6 +40,9 @@ $(BUILD)/mpwd.o: $(SRC)/mpwd.c $(INC)/mpwd.h $(INC)/globals.h $(INC)/errorHandle
 
 $(BUILD)/cd.o: $(SRC)/cd.c $(INC)/cd.h $(INC)/globals.h $(INC)/errorHandler.h
 	$(COMMAND)  -o $(BUILD)/cd.o -c $(SRC)/cd.c
+
+$(BUILD)/echo.o: $(SRC)/echo.c $(INC)/echo.h $(INC)/globals.h $(INC)/utils.h
+	$(COMMAND)  -o $(BUILD)/echo.o -c $(SRC)/echo.c
 	
 clean: 
 	rm $(BUILD)/* bin/gSH

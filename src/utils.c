@@ -34,3 +34,11 @@ char *replaceTilda(char *str)
     }
     return str;
 }
+
+void replaceTabs(char *str)
+{
+    size_t len = strlen(str);
+    for (int i = 0; i < len; i++)
+        if (str[i] == '\t')
+            str[i] = ' ';
+}
