@@ -3,6 +3,7 @@
     brief: file with header files
            and global struct definations
 *****************************************************/
+#include <sys/wait.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

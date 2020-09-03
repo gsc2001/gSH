@@ -5,6 +5,7 @@
 #include "cd.h"
 #include "echo.h"
 #include "ls.h"
+#include "sysCommand.h"
 
 void init()
 {
@@ -43,7 +44,9 @@ void execCommand(Command c)
     if (commandIndex != -1)
         builtInComExec[commandIndex](c);
     else
-        fprintf(stderr, "%s: Command not found\n", c.cmd);
+    {
+        execSys(c);
+    }
 }
 
 void listen()
@@ -67,13 +70,6 @@ void listen()
 
         // parse inp
         ParsedCommands parsed = parse(inpCopy);
-        for (int i = 0; i < parsed.n; i++)
-        {
-            if (!strcmp(parsed.commands[i].cmd, "echo"))
-                echo(inp);
-            else
-                execCommand(parsed.commands[i]);
-        }
         if (DEBUG)
         {
             fprintf(stderr, "\n\n\n\n===========DEBUG===========\n");
@@ -89,6 +85,13 @@ void listen()
                 fprintf(stderr, "\n----------------------------------------\n");
             }
             fprintf(stderr, "==========================\n\n\n\n");
+        }
+        for (int i = 0; i < parsed.n; i++)
+        {
+            if (!strcmp(parsed.commands[i].cmd, "echo"))
+                echo(inp);
+            else
+                execCommand(parsed.commands[i]);
         }
 
         //cleanup

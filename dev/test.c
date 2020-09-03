@@ -4,6 +4,5 @@
 
 int main()
 {
-    char str[100];
-    printf("%s", str);
+    printf("hii");
 }

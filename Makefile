@@ -44,8 +44,11 @@ $(BUILD)/cd.o: $(SRC)/cd.c $(INC)/cd.h $(INC)/globals.h $(INC)/errorHandler.h
 $(BUILD)/echo.o: $(SRC)/echo.c $(INC)/echo.h $(INC)/globals.h $(INC)/utils.h
 	$(COMMAND)  -o $(BUILD)/echo.o -c $(SRC)/echo.c
 	
-$(BUILD)/ls.o: $(SRC)/ls.c $(INC)/ls.h $(INC)/globals.h $(INC)/errorHandler.h
+$(BUILD)/ls.o: $(SRC)/ls.c $(INC)/ls.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h
 	$(COMMAND)  -o $(BUILD)/ls.o -c $(SRC)/ls.c
+
+$(BUILD)/sysCommand.o: $(SRC)/sysCommand.c $(INC)/sysCommand.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h
+	$(COMMAND)  -o $(BUILD)/sysCommand.o -c $(SRC)/sysCommand.c
 
 clean: 
 	rm $(BUILD)/* bin/gSH
