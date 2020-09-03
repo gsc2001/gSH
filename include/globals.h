@@ -25,6 +25,7 @@ typedef struct Command
     char *cmd;
     char **args;
     char *flags;
+    char *command_str;
 } Command;
 
 typedef struct ParsedCommands

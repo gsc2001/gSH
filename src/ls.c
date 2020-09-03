@@ -5,6 +5,7 @@
 
 #include "ls.h"
 #include "errorHandler.h"
+#include "utils.h"
 
 char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
@@ -114,7 +115,7 @@ void printLslItem(struct dirent *item, char *path)
 
 void ls(char *path, LsOpts lsopts)
 {
-
+    path = replaceTilda(path);
     int nItems;
     struct dirent **items;
 

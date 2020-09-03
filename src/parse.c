@@ -6,6 +6,8 @@ Command parseCommand(char *command_)
     Command command;
     command.args = NULL;
     command.flags = NULL;
+    command.command_str = (char *)malloc(strlen(command_) + 1);
+    strcpy(command.command_str, command_);
     command.cmd = strtok(command_, " ");
     command.argc = 0;
     char *args_[MAX_LEN];
@@ -28,11 +30,8 @@ Command parseCommand(char *command_)
     {
         command.flags = (char *)malloc(strlen(flags) + 1);
         strcpy(command.flags, flags);
+        free(flags);
     }
-
-    // cleanup
-    // free(flags);
-
     return command;
 }
 

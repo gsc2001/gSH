@@ -90,5 +90,15 @@ void listen()
             }
             fprintf(stderr, "==========================\n\n\n\n");
         }
+
+        //cleanup
+        for (int i = 0; i < parsed.n; i++)
+        {
+            Command *c = parsed.commands + i;
+            free(c->command_str);
+            free(c->cmd);
+            free(c->flags);
+            free(c);
+        }
     }
 }
