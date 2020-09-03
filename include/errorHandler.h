@@ -6,8 +6,8 @@ brief: utility functions to handle common errors
 #define __ERROR_H
 
 // syscalls with int return
-void handleSyscallint(int, const char *);
+int handleSyscallint(int, const char *);
 
 // syscalls with char * return
-void handleSyscallchar(char *, const char *);
+char *handleSyscallchar(char *, const char *);
 #endif // __ERROR_H

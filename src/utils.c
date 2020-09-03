@@ -16,7 +16,8 @@ char *replaceHomeDir(char *str)
         {
             char *path = (char *)malloc(MAX_LEN);
             path[0] = '~';
-            strncpy(path + 1, str + homeLen, len - homeLen);
+            path[1] = '\0';
+            strcpy(path + 1, str + homeLen);
             return path;
         }
     }

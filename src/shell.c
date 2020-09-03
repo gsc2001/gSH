@@ -4,6 +4,7 @@
 #include "mpwd.h"
 #include "cd.h"
 #include "echo.h"
+#include "ls.h"
 
 void init()
 {
@@ -11,17 +12,19 @@ void init()
     if (!getcwd(HOME, MAX_LEN))
         perror("Getting Home directory");
 }
-const int builtInN = 2;
+const int builtInN = 3;
 
 const char *builtInComs[] = {
     "pwd",
     "cd",
+    "ls",
 };
 
 // built in command functions
 void (*builtInComExec[])(Command c) = {
     pwdExec,
     cdExec,
+    lsExec,
 };
 
 void execCommand(Command c)
@@ -74,7 +77,6 @@ void listen()
         if (DEBUG)
         {
             fprintf(stderr, "\n\n\n\n===========DEBUG===========\n");
-
             fprintf(stderr, "n=%d", parsed.n);
             for (int i = 0; i < parsed.n; i++)
             {
