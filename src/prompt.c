@@ -10,10 +10,12 @@ char *get_prompt()
     cwd = replaceHomeDir(cwd);
     char *host = (char *)malloc(MAX_LEN);
     handleSyscallint(gethostname(host, MAX_LEN), "Getting hostname");
-    char *user = (char *)malloc(MAX_LEN);
+    char *user;
     user = getenv("USER");
-
     char *prompt = (char *)malloc(MAX_LEN);
     sprintf(prompt, "<%s@%s:%s> ", user, host, cwd);
+
+    free(cwd);
+    free(host);
     return prompt;
 }

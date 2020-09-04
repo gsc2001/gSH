@@ -95,6 +95,7 @@ void listen()
         }
 
         //cleanup
+        free(prompt);
         for (int i = 0; i < parsed.n; i++)
         {
             Command *c = parsed.commands + i;

@@ -6,7 +6,7 @@ void execSys(Command c)
     int nArgs = c.argc + 1;
     if (c.flags)
         nArgs += strlen(c.flags);
-    char **argv = (char **)malloc(nArgs * sizeof(char *));
+    char *argv[nArgs];
     int i = 0;
     argv[i++] = strtok(c.command_str, " ");
     while ((argv[i] = strtok(NULL, " ")))
@@ -25,6 +25,5 @@ void execSys(Command c)
     {
         int status;
         wait(&status);
-        // printf("hii\n");
     }
 }

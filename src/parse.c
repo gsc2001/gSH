@@ -30,8 +30,8 @@ Command parseCommand(char *command_)
     {
         command.flags = (char *)malloc(strlen(flags) + 1);
         strcpy(command.flags, flags);
-        free(flags);
     }
+    free(flags);
     return command;
 }
 
