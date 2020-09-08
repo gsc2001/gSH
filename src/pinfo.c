@@ -66,6 +66,7 @@ void pinfo(char *pid)
     printf("Executable file -- %s\n", exec);
 
     // final cleanup
+    free(procDir);
     free(executableFile);
     free(exec);
     free(mem);

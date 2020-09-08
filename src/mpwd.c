@@ -11,7 +11,8 @@ void pwdExec(Command c)
 
 void pwd()
 {
-    char *cwd = (char *)malloc(MAX_LEN);
-    handleSyscallchar(getcwd(cwd, MAX_LEN), "Error getting CWD");
+
+    char *cwd = handleSyscallchar(getcwd(NULL, MAX_LEN - 1), "Error getting CWD");
     printf("%s\n", cwd);
+    free(cwd);
 }

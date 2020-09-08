@@ -105,6 +105,7 @@ void listen()
             // free(c->cmd);
             if (c->flags)
                 free(c->flags);
+            free(c);
         }
         free(prompt);
         free(inpCopy);

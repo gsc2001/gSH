@@ -5,8 +5,7 @@
 
 char *get_prompt()
 {
-    char *cwd = (char *)malloc(MAX_LEN);
-    handleSyscallchar(getcwd(cwd, MAX_LEN), "Getting CWD");
+    char *cwd = handleSyscallchar(getcwd(NULL, 0), "Getting CWD");
     cwd = replaceHomeDir(cwd);
     char *host = (char *)malloc(MAX_LEN);
     handleSyscallint(gethostname(host, MAX_LEN), "Getting hostname");

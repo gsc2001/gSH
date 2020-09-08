@@ -18,7 +18,7 @@ char *replaceHomeDir(char *str)
             path[0] = '~';
             path[1] = '\0';
             strcpy(path + 1, str + homeLen);
-            // free(str);
+            free(str);
             return path;
         }
     }
