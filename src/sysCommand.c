@@ -20,6 +20,7 @@ void execSys(Command c)
     {
         // child process
         handleSyscallint(execvp(argv[0], argv), argv[0]);
+        exit(1);
     }
     else
     {

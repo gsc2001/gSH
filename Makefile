@@ -50,5 +50,8 @@ $(BUILD)/ls.o: $(SRC)/ls.c $(INC)/ls.h $(INC)/globals.h $(INC)/errorHandler.h $(
 $(BUILD)/sysCommand.o: $(SRC)/sysCommand.c $(INC)/sysCommand.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h
 	$(COMMAND)  -o $(BUILD)/sysCommand.o -c $(SRC)/sysCommand.c
 
+$(BUILD)/pinfo.o: $(SRC)/pinfo.c $(INC)/pinfo.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/pinfo.o -c $(SRC)/pinfo.c
+
 clean: 
 	rm $(BUILD)/* bin/gSH

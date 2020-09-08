@@ -1,8 +1,11 @@
 #include "parse.h"
 #include "utils.h"
 
-Command parseCommand(char *command_)
+Command parseCommand(char *command_raw)
 {
+    char *command_ = (char *)malloc(strlen(command_raw) + 1);
+    command_[0] = '\0';
+    strcpy(command_, command_raw);
     Command command;
     command.args = NULL;
     command.flags = NULL;
@@ -53,7 +56,6 @@ ParsedCommands parse(char *inp)
     for (int i = 0; i < nCommands; i++)
     {
         parsed.commands[i] = parseCommand(commands[i]);
-        // free(commands[i]);
     }
     return parsed;
 }

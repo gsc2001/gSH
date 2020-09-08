@@ -6,6 +6,7 @@
 #include "echo.h"
 #include "ls.h"
 #include "sysCommand.h"
+#include "pinfo.h"
 
 void init()
 {
@@ -13,12 +14,13 @@ void init()
     if (!getcwd(HOME, MAX_LEN))
         perror("Getting Home directory");
 }
-const int builtInN = 3;
+const int builtInN = 4;
 
 const char *builtInComs[] = {
     "pwd",
     "cd",
     "ls",
+    "pinfo",
 };
 
 // built in command functions
@@ -26,6 +28,7 @@ void (*builtInComExec[])(Command c) = {
     pwdExec,
     cdExec,
     lsExec,
+    pinfoExec,
 };
 
 void execCommand(Command c)
@@ -95,14 +98,15 @@ void listen()
         }
 
         //cleanup
-        free(prompt);
         for (int i = 0; i < parsed.n; i++)
         {
             Command *c = parsed.commands + i;
             free(c->command_str);
-            free(c->cmd);
-            free(c->flags);
-            free(c);
+            // free(c->cmd);
+            if (c->flags)
+                free(c->flags);
         }
+        free(prompt);
+        free(inpCopy);
     }
 }
