@@ -6,6 +6,7 @@ void echo(char *str)
     char *_str = (char *)malloc(strlen(str) + 1);
     strcpy(_str, str);
     replaceTabs(_str);
+    _str[strlen(_str) - 1] = '\0';
     char *token = strtok(_str, " ");
     token = strtok(NULL, " ");
     while (token)
@@ -14,4 +15,5 @@ void echo(char *str)
         token = strtok(NULL, " ");
     }
     printf("\n");
+    free(_str);
 }

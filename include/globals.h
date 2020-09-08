@@ -14,6 +14,8 @@
 #define __GLOBAL_H
 
 #define MAX_LEN 1024
+#define PROC_LIST_SZ 20
+
 #ifdef DEBUG
 #define DEBUG 1
 #else
@@ -27,6 +29,7 @@ typedef struct Command
     char **args;
     char *flags;
     char *command_str;
+    int bg;
 } Command;
 
 typedef struct ParsedCommands
@@ -35,6 +38,14 @@ typedef struct ParsedCommands
     Command *commands;
 } ParsedCommands;
 
+typedef struct Process
+{
+    char *name;
+    pid_t id;
+} Process;
+
 char *HOME;
+
+Process procList[PROC_LIST_SZ];
 
 #endif // __GLOBAL_H

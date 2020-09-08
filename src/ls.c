@@ -124,6 +124,9 @@ void ls(char *path, LsOpts lsopts)
     else
         nItems = handleSyscallint(scandir(path, &items, hidden, alphasort), path);
 
+    if (nItems < 0)
+        return;
+
     if (!lsopts.l)
     {
         for (int i = 0; i < nItems; i++)

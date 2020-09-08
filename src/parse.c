@@ -6,13 +6,17 @@ Command parseCommand(char *command_raw)
     char *command_ = (char *)malloc(strlen(command_raw) + 1);
     command_[0] = '\0';
     strcpy(command_, command_raw);
+
     Command command;
     command.args = NULL;
     command.flags = NULL;
     command.command_str = (char *)malloc(strlen(command_) + 1);
+    command.bg = 0;
+
     strcpy(command.command_str, command_);
     command.cmd = strtok(command_, " ");
     command.argc = 0;
+
     char *args_[MAX_LEN];
     char *flags = (char *)malloc(MAX_LEN);
     flags[0] = '\0';
@@ -25,6 +29,11 @@ Command parseCommand(char *command_raw)
             strcat(flags, arg + 1);
         else
             args_[command.argc++] = arg;
+    }
+    if (command.argc > 0 && !strcmp(args_[command.argc - 1], "&"))
+    {
+        command.argc--;
+        command.bg = 1;
     }
     command.args = (char **)malloc(command.argc * sizeof(char *));
     for (int i = 0; i < command.argc; i++)

@@ -7,12 +7,18 @@
 #include "ls.h"
 #include "sysCommand.h"
 #include "pinfo.h"
+#include "errorHandler.h"
 
 void init()
 {
-    HOME = (char *)malloc(MAX_LEN);
-    if (!getcwd(HOME, MAX_LEN))
-        perror("Getting Home directory");
+    HOME = handleSyscallchar(getcwd(NULL, MAX_LEN - 1), "Getting home dir");
+
+    // initialize proc list
+    for (int i = 0; i < PROC_LIST_SZ; i++)
+    {
+        procList[i].id = -1;
+        procList[i].name = NULL;
+    }
 }
 const int builtInN = 4;
 
@@ -81,7 +87,7 @@ void listen()
             {
                 Command com_ = parsed.commands[i];
                 fprintf(stderr, "\n---------------------------------------\n");
-                fprintf(stderr, "cmd = %s; flags=%s; argc=%d\n", com_.cmd, com_.flags, com_.argc);
+                fprintf(stderr, "cmd = %s; flags=%s; argc=%d; bg=%d\n", com_.cmd, com_.flags, com_.argc, com_.bg);
                 fprintf(stderr, "Args -> ");
                 for (int j = 0; j < com_.argc; j++)
                     fprintf(stderr, "%s,", com_.args[j]);
@@ -105,7 +111,7 @@ void listen()
             // free(c->cmd);
             if (c->flags)
                 free(c->flags);
-            free(c);
+            // free(c) // not working with semicolon dont know why
         }
         free(prompt);
         free(inpCopy);
