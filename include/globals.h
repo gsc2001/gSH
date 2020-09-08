@@ -27,8 +27,6 @@ typedef struct Command
     int argc;
     char *cmd;
     char **args;
-    char *flags;
-    char *command_str;
     int bg;
 } Command;
 

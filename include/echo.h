@@ -8,6 +8,6 @@ brief: echo command
 #define __ECHO_H
 
 // echo implementation
-void echo(char *str);
+void echo(Command c);
 
 #endif // __ECHO_H

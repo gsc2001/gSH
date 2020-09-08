@@ -3,7 +3,7 @@
 
 void pwdExec(Command c)
 {
-    if (c.argc || c.flags)
+    if (c.argc)
         fprintf(stderr, "pwd: Too many arguments/flags\n");
     else
         pwd();

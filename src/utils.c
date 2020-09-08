@@ -44,3 +44,14 @@ void replaceTabs(char *str)
         if (str[i] == '\t')
             str[i] = ' ';
 }
+
+int noOfFlags(char **args, int n)
+{
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (args[i][0] == '-')
+            cnt++;
+    }
+    return cnt;
+}

@@ -3,20 +3,12 @@
 
 void execSys(Command c)
 {
-    int nArgs = c.argc + 1;
-    if (c.flags)
-        nArgs += strlen(c.flags);
-    char *argv[nArgs];
-    int i = 0;
-    char *token = strtok(c.command_str, " ");
+    char *argv[c.argc + 2];
 
-    // very very bad way, need to change this
-    while (token && strcmp(token, "&"))
-    {
-        argv[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    argv[i] = NULL;
+    argv[0] = c.cmd;
+    for (int i = 0; i < c.argc; i++)
+        argv[i + 1] = c.args[i];
+    argv[c.argc + 1] = NULL;
 
     // fork
     pid_t forkReturn = handleSyscallint(fork(), "Error forking");
@@ -41,9 +33,9 @@ void execSys(Command c)
                 if (bgProcList[i].id == -1)
                 {
                     bgProcList[i].id = forkReturn;
-                    bgProcList[i].name = (char *)malloc(strlen(c.command_str) + 1);
+                    bgProcList[i].name = (char *)malloc(strlen(argv[0]) + 1);
                     bgProcList[i].name[0] = '\0';
-                    strcpy(bgProcList[i].name, c.command_str);
+                    strcpy(bgProcList[i].name, argv[0]);
                     break;
                 }
             }

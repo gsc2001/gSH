@@ -1,16 +1,17 @@
 #include "pinfo.h"
 #include "errorHandler.h"
+#include "utils.h"
 
 void pinfoExec(Command c)
 {
-    if (c.flags)
-        fprintf(stderr, "pinfo: Flags not allowed; Usage pinfo [pid]");
+    if (noOfFlags(c.args, c.argc))
+        fprintf(stderr, "pinfo: Flags not allowed; Usage pinfo [pid]\n");
     else if (c.argc == 0)
         pinfo("self");
     else if (c.argc == 1)
         pinfo(c.args[0]);
     else
-        fprintf(stderr, "pinfo: Flags not allowed; Usage pinfo [pid]");
+        fprintf(stderr, "pinfo: Too many arguments; Usage pinfo [pid]\n");
 }
 
 void pinfo(char *pid)
