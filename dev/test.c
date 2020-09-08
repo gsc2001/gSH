@@ -4,5 +4,12 @@
 
 int main()
 {
-    printf("hii");
+    char str[] = ";;";
+    char *t = strtok(str, ";");
+    if (t == NULL)
+        printf("Yups");
+    else
+    {
+        printf("nopes");
+    }
 }

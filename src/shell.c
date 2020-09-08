@@ -8,6 +8,7 @@
 #include "sysCommand.h"
 #include "pinfo.h"
 #include "errorHandler.h"
+#include "signalHandlers.h"
 
 void init()
 {
@@ -16,9 +17,12 @@ void init()
     // initialize proc list
     for (int i = 0; i < PROC_LIST_SZ; i++)
     {
-        procList[i].id = -1;
-        procList[i].name = NULL;
+        bgProcList[i].id = -1;
+        bgProcList[i].name = NULL;
     }
+
+    // signal handlers
+    signal(SIGCHLD, sigchldHandler);
 }
 const int builtInN = 4;
 
@@ -68,10 +72,11 @@ void listen()
     {
         char *prompt = get_prompt();
         printf("%s", prompt);
+        fflush(stdout);
         inpsize = getline(&inp, &bufsize, stdin);
         if (inpsize < 0)
             break;
-        inp[strlen(inp) - 1] = ';';
+        inp[strlen(inp) - 1] = '\0';
 
         char *inpCopy = (char *)malloc(strlen(inp) + 1);
         inpCopy[0] = '\0';
@@ -97,10 +102,14 @@ void listen()
         }
         for (int i = 0; i < parsed.n; i++)
         {
-            if (!strcmp(parsed.commands[i].cmd, "echo"))
-                echo(inp);
-            else
-                execCommand(parsed.commands[i]);
+            if (parsed.commands[i].cmd)
+            {
+
+                if (!strcmp(parsed.commands[i].cmd, "echo"))
+                    echo(inp);
+                else
+                    execCommand(parsed.commands[i]);
+            }
         }
 
         //cleanup

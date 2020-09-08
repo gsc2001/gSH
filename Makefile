@@ -53,5 +53,8 @@ $(BUILD)/sysCommand.o: $(SRC)/sysCommand.c $(INC)/sysCommand.h $(INC)/globals.h 
 $(BUILD)/pinfo.o: $(SRC)/pinfo.c $(INC)/pinfo.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/pinfo.o -c $(SRC)/pinfo.c
 
+$(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC)/globals.h $(INC)/prompt.h
+	$(COMMAND)  -o $(BUILD)/signalHandlers.o -c $(SRC)/signalHandlers.c
+
 clean: 
 	rm $(BUILD)/* bin/gSH

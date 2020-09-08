@@ -46,6 +46,6 @@ typedef struct Process
 
 char *HOME;
 
-Process procList[PROC_LIST_SZ];
+Process bgProcList[PROC_LIST_SZ];
 
 #endif // __GLOBAL_H
