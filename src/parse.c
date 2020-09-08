@@ -9,24 +9,13 @@ Command parseCommand(char *command_raw)
 
     Command command;
     command.args = NULL;
-    command.flags = NULL;
-    command.command_str = (char *)malloc(strlen(command_) + 1);
     command.bg = 0;
-
-    strcpy(command.command_str, command_);
     command.cmd = strtok(command_, " ");
     if (command.cmd == NULL)
-    {
-        command.cmd = NULL;
-        command.command_str = NULL;
         return command;
-    }
 
     command.argc = 0;
-
     char *args_[MAX_LEN];
-    char *flags = (char *)malloc(MAX_LEN);
-    flags[0] = '\0';
     char *arg;
     arg = strtok(NULL, " ");
 
@@ -36,10 +25,7 @@ Command parseCommand(char *command_raw)
         if (!strlen(arg))
             continue;
 
-        if (arg[0] == '-')
-            strcat(flags, arg + 1);
-        else
-            args_[command.argc++] = arg;
+        args_[command.argc++] = arg;
         arg = strtok(NULL, " ");
     }
     if (command.argc > 0 && !strcmp(args_[command.argc - 1], "&"))
@@ -50,12 +36,6 @@ Command parseCommand(char *command_raw)
     command.args = (char **)malloc(command.argc * sizeof(char *));
     for (int i = 0; i < command.argc; i++)
         command.args[i] = args_[i];
-    if (strlen(flags))
-    {
-        command.flags = (char *)malloc(strlen(flags) + 1);
-        strcpy(command.flags, flags);
-    }
-    free(flags);
     return command;
 }
 

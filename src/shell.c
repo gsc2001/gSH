@@ -24,13 +24,14 @@ void init()
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
 }
-const int builtInN = 4;
+const int builtInN = 5;
 
 const char *builtInComs[] = {
     "pwd",
     "cd",
     "ls",
     "pinfo",
+    "echo",
 };
 
 // built in command functions
@@ -39,6 +40,7 @@ void (*builtInComExec[])(Command c) = {
     cdExec,
     lsExec,
     pinfoExec,
+    echo,
 };
 
 void execCommand(Command c)
@@ -92,7 +94,7 @@ void listen()
             {
                 Command com_ = parsed.commands[i];
                 fprintf(stderr, "\n---------------------------------------\n");
-                fprintf(stderr, "cmd = %s; flags=%s; argc=%d; bg=%d\n", com_.cmd, com_.flags, com_.argc, com_.bg);
+                fprintf(stderr, "cmd = %s; argc=%d; bg=%d\n", com_.cmd, com_.argc, com_.bg);
                 fprintf(stderr, "Args -> ");
                 for (int j = 0; j < com_.argc; j++)
                     fprintf(stderr, "%s,", com_.args[j]);
@@ -104,24 +106,11 @@ void listen()
         {
             if (parsed.commands[i].cmd)
             {
-
-                if (!strcmp(parsed.commands[i].cmd, "echo"))
-                    echo(inp);
-                else
-                    execCommand(parsed.commands[i]);
+                execCommand(parsed.commands[i]);
             }
         }
 
         //cleanup
-        for (int i = 0; i < parsed.n; i++)
-        {
-            Command *c = parsed.commands + i;
-            free(c->command_str);
-            // free(c->cmd);
-            if (c->flags)
-                free(c->flags);
-            // free(c) // not working with semicolon dont know why
-        }
         free(prompt);
         free(inpCopy);
     }

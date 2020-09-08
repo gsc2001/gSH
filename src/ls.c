@@ -13,34 +13,46 @@ void lsExec(Command c)
 {
     LsOpts lsopts;
     lsopts.l = 0, lsopts.a = 0;
-
-    if (c.flags)
+    int nFlags = noOfFlags(c.args, c.argc);
+    for (int i = 0; i < c.argc; i++)
     {
-        size_t fLen = strlen(c.flags);
-        for (int i = 0; i < fLen; i++)
+        if (c.args[i][0] == '-')
         {
-            if (c.flags[i] == 'l')
+            if (c.args[i][1] == 'l' && (strlen(c.args[i]) == 2))
                 lsopts.l = 1;
-            else if (c.flags[i] == 'a')
+            else if (c.args[i][1] == 'a' && (strlen(c.args[i]) == 2))
                 lsopts.a = 1;
             else
             {
-                fprintf(stderr, "ls: Unknown option %c; Usage ls [-l] [-a] dir1 dir2 ...\n", c.flags[i]);
+                fprintf(stderr, "ls: Unknown option %s; Usage ls [-l] [-a] dir1 dir2 ...\n", c.args[i]);
                 return;
             }
         }
     }
 
-    if (!c.argc)
+    if (c.argc == nFlags)
         ls(".", lsopts);
-    else if (c.argc == 1)
-        ls(c.args[0], lsopts);
+    if (c.argc == nFlags + 1)
+    {
+        // one dir with flags
+        for (int i = 0; i < c.argc; i++)
+        {
+            if (c.args[i][0] != '-')
+            {
+                ls(c.args[i], lsopts);
+                break;
+            }
+        }
+    }
     else
     {
         for (int i = 0; i < c.argc; i++)
         {
-            printf("\n%s:\n", c.args[i]);
-            ls(c.args[i], lsopts);
+            if (c.args[i][0] != '-')
+            {
+                printf("\n%s:\n", c.args[i]);
+                ls(c.args[i], lsopts);
+            }
         }
     }
 }

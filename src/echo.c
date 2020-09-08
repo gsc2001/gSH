@@ -1,18 +1,14 @@
 #include "echo.h"
 #include "utils.h"
 
-void echo(char *str)
+void echo(Command c)
 {
-    char *_str = (char *)malloc(strlen(str) + 1);
-    strcpy(_str, str);
-    replaceTabs(_str);
-    char *token = strtok(_str, " ");
-    token = strtok(NULL, " ");
-    while (token)
+    for (int i = 0; i < c.argc - 1; i++)
+        printf("%s ", c.args[i]);
+    printf("%s", c.args[c.argc - 1]);
+    if (c.bg)
     {
-        printf("%s ", token);
-        token = strtok(NULL, " ");
+        printf(" &");
     }
     printf("\n");
-    free(_str);
 }

@@ -4,8 +4,10 @@
 
 void cdExec(Command c)
 {
-    if (c.argc > 1 || c.flags)
-        fprintf(stderr, "cd: too many args; Usage: cd dir");
+    if (c.argc > 1)
+        fprintf(stderr, "cd: too many args; Usage: cd dir\n");
+    else if (noOfFlags(c.args, c.argc))
+        fprintf(stderr, "cd: no flags allowed; Usage: cd dir\n");
     else if (c.argc == 0)
         cd(HOME);
     else
