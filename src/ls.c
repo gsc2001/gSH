@@ -62,6 +62,27 @@ int hidden(const struct dirent *item)
     return item->d_name[0] != '.';
 }
 
+unsigned long getTotalSize(struct dirent **items, int nItems, char *path)
+{
+    unsigned long sz = 0;
+    char *fileName = (char *)malloc(MAX_LEN);
+    fileName[0] = '\0';
+    for (int i = 0; i < nItems; i++)
+    {
+        struct dirent *item = items[i];
+        strcpy(fileName, path);
+        strcat(fileName, "/");
+        strcat(fileName, item->d_name);
+
+        struct stat stat_buf;
+
+        handleSyscallint(lstat(fileName, &stat_buf), item->d_name);
+        sz += stat_buf.st_blocks;
+    }
+
+    return sz;
+}
+
 void printLslItem(struct dirent *item, char *path)
 {
     struct stat stat_buf;
@@ -146,6 +167,7 @@ void ls(char *path, LsOpts lsopts)
     }
     else
     {
+        printf("total %lu\n", getTotalSize(items, nItems, path) / 2);
         for (int i = 0; i < nItems; i++)
             printLslItem(items[i], path);
     }
