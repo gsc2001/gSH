@@ -10,12 +10,13 @@ OBJECTS = $(patsubst $(SRC)/%,$(BUILD)/%,$(SOURCES:.$(SRCEXT)=.o))
 
 COMMAND = $(CC) $(CFLAGS) -I$(INC)
 
-debug: CFLAGS += -DDEBUG -g
-debug: bin/gSH
 
 bin/gSH: $(OBJECTS)
 	@echo "Linking Objects ..."
 	$(COMMAND) -o bin/gSH $(OBJECTS)
+
+debug: CFLAGS += -DDEBUG -g
+debug: bin/gSH
 
 $(BUILD)/main.o: $(SRC)/main.c $(INC)/shell.h
 	$(COMMAND) -o $(BUILD)/main.o -c $(SRC)/main.c
