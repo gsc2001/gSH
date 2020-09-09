@@ -39,6 +39,9 @@ void execSys(Command c)
                     break;
                 }
             }
+
+            // print pid of child
+            printf("pid %d\n", forkReturn);
         }
         else
             waitpid(forkReturn, &status, WUNTRACED);

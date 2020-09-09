@@ -64,7 +64,7 @@ void execCommand(Command c)
     }
 }
 
-void listen()
+void repl()
 {
     size_t inpsize;
     char *inp = 0;
@@ -106,6 +106,13 @@ void listen()
         {
             if (parsed.commands[i].cmd)
             {
+                // check if exit
+                if (!strcmp(parsed.commands[i].cmd, "exit"))
+                {
+                    free(prompt);
+                    free(inpCopy);
+                    return;
+                }
                 execCommand(parsed.commands[i]);
             }
         }
@@ -114,4 +121,8 @@ void listen()
         free(prompt);
         free(inpCopy);
     }
+}
+
+void byebye()
+{
 }
