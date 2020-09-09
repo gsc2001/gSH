@@ -3,5 +3,6 @@
 int main()
 {
     init();
-    listen();
+    repl();
+    byebye();
 }

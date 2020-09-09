@@ -11,7 +11,10 @@
 void init();
 
 // main loop
-void listen();
+void repl();
+
+// function while exiting
+void byebye();
 
 // Command executor
 void execCommand(Command c);
