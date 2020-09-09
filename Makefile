@@ -57,5 +57,8 @@ $(BUILD)/pinfo.o: $(SRC)/pinfo.c $(INC)/pinfo.h $(INC)/globals.h
 $(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC)/globals.h $(INC)/prompt.h
 	$(COMMAND)  -o $(BUILD)/signalHandlers.o -c $(SRC)/signalHandlers.c
 
+$(BUILD)/history.o: $(SRC)/history.c $(INC)/history.h $(INC)/globals.h $(INC)/utils.h $(INC)/errorHandler.h
+	$(COMMAND)  -o $(BUILD)/history.o -c $(SRC)/history.c
+
 clean: 
 	rm $(BUILD)/* bin/gSH

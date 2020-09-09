@@ -9,6 +9,7 @@
 #include "pinfo.h"
 #include "errorHandler.h"
 #include "signalHandlers.h"
+#include "history.h"
 
 void init()
 {
@@ -21,10 +22,13 @@ void init()
         bgProcList[i].name = NULL;
     }
 
+    // load history
+    loadHistory();
+
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
 }
-const int builtInN = 5;
+const int builtInN = 6;
 
 const char *builtInComs[] = {
     "pwd",
@@ -32,6 +36,7 @@ const char *builtInComs[] = {
     "ls",
     "pinfo",
     "echo",
+    "history",
 };
 
 // built in command functions
@@ -41,6 +46,7 @@ void (*builtInComExec[])(Command c) = {
     lsExec,
     pinfoExec,
     echo,
+    historyExec,
 };
 
 void execCommand(Command c)
@@ -79,6 +85,9 @@ void repl()
         if (inpsize < 0)
             break;
         inp[strlen(inp) - 1] = '\0';
+
+        // add to history
+        addToHistory(inp);
 
         char *inpCopy = (char *)malloc(strlen(inp) + 1);
         inpCopy[0] = '\0';
@@ -125,4 +134,5 @@ void repl()
 
 void byebye()
 {
+    saveHistory();
 }
