@@ -16,11 +16,12 @@ void pinfoExec(Command c)
 
 void pinfo(char *pid)
 {
+    printf("hii");
     char *procDir = (char *)malloc(MAX_LEN);
     sprintf(procDir, "/proc/%s", pid);
 
     char *statusFile = (char *)malloc(MAX_LEN);
-    sprintf(statusFile, "%s/stat", procDir);
+    sprintf(statusFile, "%s/status", procDir);
 
     FILE *f = fopen(statusFile, "r");
     if (!f)
@@ -30,29 +31,33 @@ void pinfo(char *pid)
         free(statusFile);
         return;
     }
+    char *state = (char *)malloc(5);
+    char *vmSize = (char *)malloc(MAX_LEN);
+    char *pid_ = (char *)malloc(MAX_LEN);
+    char *buf = (char *)malloc(MAX_LEN);
+    int i = 1;
 
-    char *status = (char *)malloc(MAX_LEN); // cleanup at end
-    fgets(status, MAX_LEN - 1, f);
-
-    // pid
-    char *pid_ = strtok(status, " ");
-    strtok(NULL, " ");
-    // status
-    char *state = strtok(NULL, " ");
-    // status cleanup
-    free(statusFile);
-    fclose(f);
-
-    char *memFile = (char *)malloc(MAX_LEN);
-    char *mem = (char *)malloc(MAX_LEN); // cleanup at end
-    sprintf(memFile, "%s/statm", procDir);
-    f = fopen(memFile, "r");
-    fgets(mem, MAX_LEN - 1, f);
-    char *vmSize = strtok(mem, " ");
-
-    // mem cleanup
-    free(memFile);
-    fclose(f);
+    while ((fgets(buf, MAX_LEN - 1, f)))
+    {
+        if (i == 3)
+        {
+            strtok(buf, " \t");
+            strcpy(state, strtok(NULL, " \t"));
+        }
+        else if (i == 6)
+        {
+            strtok(buf, " \t");
+            strcpy(pid_, strtok(NULL, " \t"));
+            pid_[strlen(pid_) - 1] = '\0';
+        }
+        else if (i == 18)
+        {
+            strtok(buf, " \t");
+            strcpy(vmSize, strtok(NULL, " \t"));
+            break;
+        }
+        i++;
+    }
 
     char *executableFile = (char *)malloc(MAX_LEN);
     sprintf(executableFile, "%s/exe", procDir);
@@ -70,6 +75,7 @@ void pinfo(char *pid)
     free(procDir);
     free(executableFile);
     free(exec);
-    free(mem);
-    free(status);
+    free(state);
+    free(vmSize);
+    free(buf);
 }
