@@ -14,6 +14,12 @@ The project contains the following folder with files described:
 
 -   ### Building
 
+    Make sure you have a build folder in the current directory. If not then create by
+
+    ```bash
+    mkdir build
+    ```
+
     To build normally
 
     ```bash
