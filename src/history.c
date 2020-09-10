@@ -6,8 +6,17 @@ void loadHistory()
 {
     // init steps
     hpos = 0;
-    histFile = (char *)malloc(strlen(".gsh_history") + 1);
-    strcpy(histFile, ".gSH_history");
+    char *histFolder = (char *)malloc(MAX_LEN);
+
+    ssize_t l = readlink("/proc/self/exe", histFolder, MAX_LEN - 1);
+
+    int pos;
+    for (pos = l; histFolder[pos] != '/'; pos--)
+        ;
+    histFolder[pos] = '\0';
+    histFile = (char *)malloc(strlen(histFolder) + strlen(".gSH_history") + 1);
+    sprintf(histFile, "%s/%s", histFolder, ".gSH_history");
+    free(histFolder);
 
     // Nullify the full list
     for (int i = 0; i < HISTORY_SZ; i++)
