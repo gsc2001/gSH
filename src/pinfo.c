@@ -20,12 +20,12 @@ void pinfo(char *pid)
     sprintf(procDir, "/proc/%s", pid);
 
     char *statusFile = (char *)malloc(MAX_LEN);
-    sprintf(statusFile, "%s/status", procDir);
+    sprintf(statusFile, "%s/stat", procDir);
 
     FILE *f = fopen(statusFile, "r");
     if (!f)
     {
-        fprintf(stderr, "Process with pid %s not found", pid);
+        fprintf(stderr, "Process with pid %s not found\n", pid);
         free(procDir);
         free(statusFile);
         return;
@@ -34,30 +34,27 @@ void pinfo(char *pid)
     char *vmSize = (char *)malloc(MAX_LEN);
     char *pid_ = (char *)malloc(MAX_LEN);
     char *buf = (char *)malloc(MAX_LEN);
+    int pgrp, tpgid;
     int i = 1;
 
-    while ((fgets(buf, MAX_LEN - 1, f)))
+    while (fscanf(f, "%s", buf) != EOF)
     {
         if (i == 3)
+            strcpy(state, buf);
+        else if (i == 1)
+            strcpy(pid_, buf);
+        else if (i == 5)
+            pgrp = atoi(buf);
+        else if (i == 8)
+            tpgid = atoi(buf);
+        else if (i == 23)
         {
-            strtok(buf, " \t");
-            strcpy(state, strtok(NULL, " \t"));
-        }
-        else if (i == 6)
-        {
-            strtok(buf, " \t");
-            strcpy(pid_, strtok(NULL, " \t"));
-            pid_[strlen(pid_) - 1] = '\0';
-        }
-        else if (i == 18)
-        {
-            strtok(buf, " \t");
-            strcpy(vmSize, strtok(NULL, " \t"));
+            strcpy(vmSize, buf);
             break;
         }
         i++;
     }
-    if (getpgid(atoi(pid_)) == tcgetpgrp(0))
+    if (pgrp == tpgid)
         strcat(state, "+");
 
     char *executableFile = (char *)malloc(MAX_LEN);
