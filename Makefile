@@ -11,12 +11,12 @@ OBJECTS = $(patsubst $(SRC)/%,$(BUILD)/%,$(SOURCES:.$(SRCEXT)=.o))
 COMMAND = $(CC) $(CFLAGS) -I$(INC)
 
 
-bin/gSH: $(OBJECTS)
+gSH: $(OBJECTS)
 	@echo "Linking Objects ..."
-	$(COMMAND) -o bin/gSH $(OBJECTS)
+	$(COMMAND) -o gSH $(OBJECTS)
 
 debug: CFLAGS += -DDEBUG -g
-debug: bin/gSH
+debug: gSH
 
 $(BUILD)/main.o: $(SRC)/main.c $(INC)/shell.h
 	$(COMMAND) -o $(BUILD)/main.o -c $(SRC)/main.c
@@ -61,4 +61,4 @@ $(BUILD)/history.o: $(SRC)/history.c $(INC)/history.h $(INC)/globals.h $(INC)/ut
 	$(COMMAND)  -o $(BUILD)/history.o -c $(SRC)/history.c
 
 clean: 
-	rm $(BUILD)/* bin/gSH
+	rm $(BUILD)/* gSH
