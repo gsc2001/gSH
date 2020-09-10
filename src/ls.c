@@ -8,6 +8,21 @@
 #include "utils.h"
 
 char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+mode_t permissionsMasks[] = {
+    S_IRUSR,
+    S_IWUSR,
+    S_IXUSR,
+    S_IRGRP,
+    S_IWGRP,
+    S_IXGRP,
+    S_IROTH,
+    S_IWOTH,
+    S_IXOTH,
+};
+struct passwd *user_struct;
+struct group *group_struct;
+struct tm *mtime;
+struct stat statBuf;
 
 void lsExec(Command c)
 {
@@ -80,38 +95,26 @@ unsigned long getTotalSize(struct dirent **items, int nItems, char *path)
         sz += stat_buf.st_blocks;
     }
 
+    free(fileName);
     return sz;
 }
 
 void printLslItem(struct dirent *item, char *path)
 {
-    struct stat stat_buf;
 
     char *file_path = (char *)malloc(MAX_LEN);
     file_path[0] = '\0';
     strcpy(file_path, path);
     strcat(file_path, "/");
     strcat(file_path, item->d_name);
-    handleSyscallint(lstat(file_path, &stat_buf), item->d_name);
+    handleSyscallint(lstat(file_path, &statBuf), item->d_name);
     char perm[] = "----------";
-    if (S_ISDIR(stat_buf.st_mode))
+    if (S_ISDIR(statBuf.st_mode))
         perm[0] = 'd';
-
-    mode_t permissionsMasks[] = {
-        S_IRUSR,
-        S_IWUSR,
-        S_IXUSR,
-        S_IRGRP,
-        S_IWGRP,
-        S_IXGRP,
-        S_IROTH,
-        S_IWOTH,
-        S_IXOTH,
-    };
 
     for (int i = 0; i < 9; i++)
     {
-        if ((stat_buf.st_mode & permissionsMasks[i]) != 0)
+        if ((statBuf.st_mode & permissionsMasks[i]) != 0)
         {
             switch (i % 3)
             {
@@ -128,25 +131,22 @@ void printLslItem(struct dirent *item, char *path)
         }
     }
 
-    struct passwd *user_struct;
-    user_struct = getpwuid(stat_buf.st_uid);
+    user_struct = getpwuid(statBuf.st_uid);
 
-    struct group *group_struct;
-    group_struct = getgrgid(stat_buf.st_gid);
+    group_struct = getgrgid(statBuf.st_gid);
 
-    struct tm *mtime;
-    mtime = localtime(&stat_buf.st_mtime);
+    mtime = localtime(&statBuf.st_mtime);
 
-    char *fileName = (char *)malloc(strlen(item->d_name) + 1);
+    char *fileName = (char *)malloc(MAX_LEN);
 
-    if (S_ISDIR(stat_buf.st_mode))
+    if (S_ISDIR(statBuf.st_mode))
         sprintf(fileName, COL_BLU "%s" COL_WHT, item->d_name);
     else
         sprintf(fileName, "%s", item->d_name);
 
     printf("%s\t%ld\t%s\t%s\t%ld\t%s\t%d\t%02d:%02d\t%s\n",
-           perm, stat_buf.st_nlink, user_struct->pw_name,
-           group_struct->gr_name, stat_buf.st_size,
+           perm, statBuf.st_nlink, user_struct->pw_name,
+           group_struct->gr_name, statBuf.st_size,
            months[mtime->tm_mon], mtime->tm_mday,
            mtime->tm_hour, mtime->tm_min, fileName);
 

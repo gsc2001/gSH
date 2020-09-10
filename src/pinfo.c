@@ -72,8 +72,10 @@ void pinfo(char *pid)
     // final cleanup
     free(procDir);
     free(executableFile);
+    free(statusFile);
     free(exec);
     free(state);
     free(vmSize);
     free(buf);
+    free(pid_);
 }

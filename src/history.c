@@ -10,11 +10,11 @@ void loadHistory()
 
     ssize_t l = readlink("/proc/self/exe", histFolder, MAX_LEN - 1);
 
-    int pos;
-    for (pos = l; histFolder[pos] != '/'; pos--)
+    int pos = l;
+    for (; histFolder[pos] != '/'; pos--)
         ;
     histFolder[pos] = '\0';
-    histFile = (char *)malloc(strlen(histFolder) + strlen(".gSH_history") + 1);
+    histFile = (char *)malloc(MAX_LEN);
     sprintf(histFile, "%s/%s", histFolder, ".gSH_history");
     free(histFolder);
 
@@ -124,4 +124,5 @@ void saveHistory()
         if (histList[i_])
             free(histList[i_]);
     }
+    free(histFile);
 }
