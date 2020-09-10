@@ -32,8 +32,10 @@ void sigchldHandler(int sig)
     strcpy(exitType, ((WIFEXITED(status) && (WEXITSTATUS(status) == EXIT_SUCCESS)) ? "normally" : "abnormally"));
     printf("\n%s with pid %d exited %s\n", found ? p.name : "Process", p.id, exitType);
 
-    printf("%s", get_prompt());
+    char *prompt = get_prompt();
+    printf("%s", prompt);
     fflush(stdout);
 
+    free(prompt);
     free(p.name);
 }

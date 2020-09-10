@@ -119,6 +119,7 @@ void repl()
                 if (!strcmp(parsed.commands[i].cmd, "exit"))
                 {
                     free(prompt);
+                    free(parsed.commands);
                     free(inpCopy);
                     return;
                 }
@@ -127,6 +128,7 @@ void repl()
         }
 
         //cleanup
+        free(parsed.commands);
         free(prompt);
         free(inpCopy);
     }
