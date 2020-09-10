@@ -16,6 +16,11 @@
 #define MAX_LEN 1024
 #define PROC_LIST_SZ 20
 
+// colors
+#define COL_BLU "\033[34;1m"
+#define COL_GRN "\033[32;1m"
+#define COL_WHT "\033[0m"
+
 #ifdef DEBUG
 #define DEBUG 1
 #else

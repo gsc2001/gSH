@@ -12,8 +12,7 @@ char *get_prompt()
     char *user;
     user = getenv("USER");
     char *prompt = (char *)malloc(MAX_LEN);
-    sprintf(prompt, "<%s@%s:%s> ", user, host, cwd);
-
+    sprintf(prompt, COL_GRN "<%s@%s:" COL_BLU "%s" COL_GRN "> " COL_WHT, user, host, cwd);
     free(cwd);
     free(host);
     return prompt;

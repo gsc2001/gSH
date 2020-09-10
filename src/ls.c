@@ -137,13 +137,21 @@ void printLslItem(struct dirent *item, char *path)
     struct tm *mtime;
     mtime = localtime(&stat_buf.st_mtime);
 
+    char *fileName = (char *)malloc(strlen(item->d_name) + 1);
+
+    if (S_ISDIR(stat_buf.st_mode))
+        sprintf(fileName, COL_BLU "%s" COL_WHT, item->d_name);
+    else
+        sprintf(fileName, "%s", item->d_name);
+
     printf("%s\t%ld\t%s\t%s\t%ld\t%s\t%d\t%02d:%02d\t%s\n",
            perm, stat_buf.st_nlink, user_struct->pw_name,
            group_struct->gr_name, stat_buf.st_size,
            months[mtime->tm_mon], mtime->tm_mday,
-           mtime->tm_hour, mtime->tm_min, item->d_name);
+           mtime->tm_hour, mtime->tm_min, fileName);
 
     free(file_path);
+    free(fileName);
 }
 
 void ls(char *path, LsOpts lsopts)
@@ -162,8 +170,25 @@ void ls(char *path, LsOpts lsopts)
 
     if (!lsopts.l)
     {
+        char *filePath = (char *)malloc(MAX_LEN);
+        char *fileName = (char *)malloc(MAX_LEN);
+        struct stat stat_buf;
         for (int i = 0; i < nItems; i++)
-            printf("%s\n", items[i]->d_name);
+        {
+            filePath[0] = '\0';
+            strcpy(filePath, path);
+            strcat(filePath, "/");
+            strcat(filePath, items[i]->d_name);
+            handleSyscallint(lstat(filePath, &stat_buf), items[i]->d_name);
+            if (S_ISDIR(stat_buf.st_mode))
+                sprintf(fileName, COL_BLU "%s" COL_WHT, items[i]->d_name);
+            else
+                sprintf(fileName, "%s", items[i]->d_name);
+            printf("%s\n", fileName);
+        }
+
+        free(filePath);
+        free(fileName);
     }
     else
     {
