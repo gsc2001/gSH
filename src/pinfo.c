@@ -16,7 +16,6 @@ void pinfoExec(Command c)
 
 void pinfo(char *pid)
 {
-    printf("hii");
     char *procDir = (char *)malloc(MAX_LEN);
     sprintf(procDir, "/proc/%s", pid);
 
@@ -58,13 +57,15 @@ void pinfo(char *pid)
         }
         i++;
     }
+    if (getpgid(atoi(pid_)) == tcgetpgrp(0))
+        strcat(state, "+");
 
     char *executableFile = (char *)malloc(MAX_LEN);
     sprintf(executableFile, "%s/exe", procDir);
     char *exec = (char *)malloc(MAX_LEN);
     int sz = handleSyscallint(readlink(executableFile, exec, MAX_LEN - 1), "reading exectuble link");
     exec[sz] = '\0';
-
+    exec = replaceHomeDir(exec);
     // output
     printf("pid -- %s\n", pid_);
     printf("Process Status -- %s\n", state);
