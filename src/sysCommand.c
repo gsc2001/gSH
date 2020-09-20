@@ -1,5 +1,7 @@
 #include "sysCommand.h"
 #include "errorHandler.h"
+#include "list.h"
+#include "utils.h"
 
 void execSys(Command c)
 {
@@ -27,21 +29,15 @@ void execSys(Command c)
         int status;
         if (c.bg)
         {
-            // find free place
-            for (int i = 0; i < PROC_LIST_SZ; i++)
-            {
-                if (bgProcList[i].id == -1)
-                {
-                    bgProcList[i].id = forkReturn;
-                    bgProcList[i].name = (char *)malloc(strlen(argv[0]) + 1);
-                    bgProcList[i].name[0] = '\0';
-                    strcpy(bgProcList[i].name, argv[0]);
-                    break;
-                }
-            }
+            Process p;
+            initProcess(&p, forkReturn, argv[0]);
+            insertProcess(p);
 
             // print pid of child
             printf("pid %d\n", forkReturn);
+
+            // cleanup
+            free(p.name);
         }
         else
             waitpid(forkReturn, &status, WUNTRACED);

@@ -15,13 +15,6 @@ void init()
 {
     HOME = handleSyscallchar(getcwd(NULL, MAX_LEN - 1), "Getting home dir");
 
-    // initialize proc list
-    for (int i = 0; i < PROC_LIST_SZ; i++)
-    {
-        bgProcList[i].id = -1;
-        bgProcList[i].name = NULL;
-    }
-
     // load history
     loadHistory();
 

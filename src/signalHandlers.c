@@ -1,31 +1,20 @@
 #include "signalHandlers.h"
 #include "prompt.h"
+#include "list.h"
 
 void sigchldHandler(int sig)
 {
     int status;
     pid_t pid = waitpid(-1, &status, WNOHANG);
-
     if (pid <= 0)
         return;
 
-    Process p;
-    p.id = pid;
-    p.name = (char *)malloc(MAX_LEN);
-    p.name[0] = '\0';
+    Process p = findProcess(pid);
+    int found = p.name != NULL;
 
-    int found = 0;
-    for (int i = 0; i < PROC_LIST_SZ; i++)
-    {
-        if (bgProcList[i].id == pid)
-        {
-            bgProcList[i].id = -1;
-            strcpy(p.name, bgProcList[i].name);
-            free(bgProcList[i].name);
-            found = 1;
-            break;
-        }
-    }
+    if (found)
+        // remove the proces from list
+        removeProcess(pid);
 
     char *exitType = (char *)malloc(15);
 

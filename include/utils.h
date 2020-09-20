@@ -19,4 +19,6 @@ void replaceTabs(char *str);
 // check if a args list has flags or not
 int noOfFlags(char **args, int n);
 
+// init process loc with id pid and name name
+void initProcess(Process *loc, pid_t pid, char *name);
 #endif // __UTILS_H

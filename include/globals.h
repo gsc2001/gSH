@@ -14,7 +14,6 @@
 #define __GLOBAL_H
 
 #define MAX_LEN 1024
-#define PROC_LIST_SZ 20
 
 // colors
 #define COL_BLU "\033[34;1m"
@@ -48,7 +47,5 @@ typedef struct Process
 } Process;
 
 char *HOME;
-
-Process bgProcList[PROC_LIST_SZ];
 
 #endif // __GLOBAL_H

@@ -55,3 +55,11 @@ int noOfFlags(char **args, int n)
     }
     return cnt;
 }
+
+void initProcess(Process *loc, pid_t pid, char *name)
+{
+    loc->id = pid;
+    loc->name = (char *)malloc(strlen(name) + 1);
+    loc->name[0] = '\0';
+    strcpy(loc->name, name);
+}

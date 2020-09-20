@@ -60,5 +60,8 @@ $(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC
 $(BUILD)/history.o: $(SRC)/history.c $(INC)/history.h $(INC)/globals.h $(INC)/utils.h $(INC)/errorHandler.h
 	$(COMMAND)  -o $(BUILD)/history.o -c $(SRC)/history.c
 
+$(BUILD)/list.o: $(SRC)/list.c $(INC)/list.h
+	$(COMMAND)  -o $(BUILD)/list.o -c $(SRC)/list.c
+	
 clean: 
 	rm $(BUILD)/* gSH
