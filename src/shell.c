@@ -21,6 +21,7 @@ void init()
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
     signal(SIGINT, sigintHandler);
+    signal(SIGTSTP, sigtstpHandler);
 }
 const int builtInN = 6;
 

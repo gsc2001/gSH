@@ -54,6 +54,13 @@ void execSys(Command c)
 
             signal(SIGTTIN, SIG_DFL);
             signal(SIGTTOU, SIG_DFL);
+
+            if (WIFSTOPPED(status))
+            {
+                Process p;
+                initProcess(&p, forkReturn, argv[0]);
+                insertProcess(p);
+            }
         }
     }
 }

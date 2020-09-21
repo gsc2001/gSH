@@ -12,4 +12,6 @@ void sigchldHandler(int sig);
 
 void sigintHandler(int sig);
 
+void sigtstpHandler(int sig);
+
 #endif // __SIGNAL_H

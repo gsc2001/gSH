@@ -35,3 +35,10 @@ void sigintHandler(int sig)
     printf("\n%s", prompt);
     fflush(stdout);
 }
+
+void sigtstpHandler(int sig)
+{
+    char *prompt = get_prompt();
+    printf("\n%s", prompt);
+    fflush(stdout);
+}
