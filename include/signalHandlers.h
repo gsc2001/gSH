@@ -10,4 +10,6 @@ brief: signal handlers for signals SIGCHLD
 // handler for SIGCHLD
 void sigchldHandler(int sig);
 
+void sigintHandler(int sig);
+
 #endif // __SIGNAL_H

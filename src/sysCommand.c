@@ -18,11 +18,9 @@ void execSys(Command c)
     if (forkReturn == 0)
     {
         // child process
-        if (c.bg)
-            setpgid(0, 0);
-
+        setpgid(0, 0);
         handleSyscallint(execvp(argv[0], argv), argv[0]);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     else
     {
@@ -40,6 +38,22 @@ void execSys(Command c)
             free(p.name);
         }
         else
+        {
+            // make the forground process group foreground
+            setpgid(forkReturn, 0);
+            tcsetpgrp(0, forkReturn);
+
+            // as shell will be removed from foreground so mute its call for I/O
+            signal(SIGTTIN, SIG_IGN);
+            signal(SIGTTOU, SIG_IGN);
+
             waitpid(forkReturn, &status, WUNTRACED);
+
+            // shell to foreground now
+            tcsetpgrp(0, getpgid(0));
+
+            signal(SIGTTIN, SIG_DFL);
+            signal(SIGTTOU, SIG_DFL);
+        }
     }
 }

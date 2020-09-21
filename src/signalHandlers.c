@@ -28,3 +28,10 @@ void sigchldHandler(int sig)
     free(prompt);
     free(p.name);
 }
+
+void sigintHandler(int sig)
+{
+    char *prompt = get_prompt();
+    printf("\n%s", prompt);
+    fflush(stdout);
+}

@@ -20,6 +20,7 @@ void init()
 
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
+    signal(SIGINT, sigintHandler);
 }
 const int builtInN = 6;
 
