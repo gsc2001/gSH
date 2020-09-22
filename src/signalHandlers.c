@@ -1,6 +1,6 @@
 #include "signalHandlers.h"
 #include "prompt.h"
-#include "list.h"
+#include "processList.h"
 
 void sigchldHandler(int sig)
 {

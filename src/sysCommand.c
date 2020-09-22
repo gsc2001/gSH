@@ -1,6 +1,6 @@
 #include "sysCommand.h"
 #include "errorHandler.h"
-#include "list.h"
+#include "processList.h"
 #include "utils.h"
 
 void execSys(Command c)

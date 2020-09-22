@@ -1,4 +1,4 @@
-#include "list.h"
+#include "processList.h"
 #include "utils.h"
 
 Node *head = NULL;
@@ -59,4 +59,50 @@ void removeProcess(pid_t pid)
 
     free(i->p.name);
     free(i);
+}
+
+void printProcesses()
+{
+    char *statusFile = (char *)malloc(MAX_LEN);
+    char *buf = (char *)malloc(MAX_LEN);
+
+    // completely roll back
+    Node *i = head;
+    if (!i)
+        return;
+
+    while (i->prev)
+        i = i->prev;
+
+    int cur = 1;
+    while (i)
+    {
+        char state;
+        Process p = i->p;
+        sprintf(statusFile, "/proc/%d/stat", p.id);
+        FILE *f = fopen(statusFile, "r");
+        int cnt = 1;
+        while (fscanf(f, "%s", buf) != EOF)
+        {
+            if (cnt == 3)
+            {
+                state = buf[0];
+                break;
+            }
+            cnt++;
+        }
+        fclose(f);
+        if (state == 'T')
+            strcpy(buf, "Stopped");
+        else
+            strcpy(buf, "Running");
+
+        printf("[%d] %s %s [%d]\n", cur, buf, p.name, p.id);
+
+        i = i->next;
+        cur++;
+    }
+
+    free(statusFile);
+    free(buf);
 }

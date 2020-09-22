@@ -48,20 +48,24 @@ $(BUILD)/echo.o: $(SRC)/echo.c $(INC)/echo.h $(INC)/globals.h $(INC)/utils.h
 $(BUILD)/ls.o: $(SRC)/ls.c $(INC)/ls.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h
 	$(COMMAND)  -o $(BUILD)/ls.o -c $(SRC)/ls.c
 
-$(BUILD)/sysCommand.o: $(SRC)/sysCommand.c $(INC)/sysCommand.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h
+$(BUILD)/sysCommand.o: $(SRC)/sysCommand.c $(INC)/sysCommand.h $(INC)/globals.h $(INC)/errorHandler.h $(INC)/utils.h $(INC)/processList.h
 	$(COMMAND)  -o $(BUILD)/sysCommand.o -c $(SRC)/sysCommand.c
 
 $(BUILD)/pinfo.o: $(SRC)/pinfo.c $(INC)/pinfo.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/pinfo.o -c $(SRC)/pinfo.c
 
-$(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC)/globals.h $(INC)/prompt.h
+$(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC)/globals.h $(INC)/prompt.h $(INC)/processList.h
 	$(COMMAND)  -o $(BUILD)/signalHandlers.o -c $(SRC)/signalHandlers.c
 
 $(BUILD)/history.o: $(SRC)/history.c $(INC)/history.h $(INC)/globals.h $(INC)/utils.h $(INC)/errorHandler.h
 	$(COMMAND)  -o $(BUILD)/history.o -c $(SRC)/history.c
 
-$(BUILD)/list.o: $(SRC)/list.c $(INC)/list.h
-	$(COMMAND)  -o $(BUILD)/list.o -c $(SRC)/list.c
+$(BUILD)/processList.o: $(SRC)/processList.c $(INC)/processList.h
+	$(COMMAND)  -o $(BUILD)/processList.o -c $(SRC)/processList.c
+
+$(BUILD)/jobs.o: $(SRC)/jobs.c $(INC)/jobs.h $(INC)/processList.h
+	$(COMMAND)  -o $(BUILD)/jobs.o -c $(SRC)/jobs.c
+
 	
 clean: 
 	rm $(BUILD)/* gSH

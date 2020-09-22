@@ -10,6 +10,7 @@
 #include "errorHandler.h"
 #include "signalHandlers.h"
 #include "history.h"
+#include "jobs.h"
 
 void init()
 {
@@ -23,7 +24,7 @@ void init()
     signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
 }
-const int builtInN = 6;
+const int builtInN = 7;
 
 const char *builtInComs[] = {
     "pwd",
@@ -32,6 +33,7 @@ const char *builtInComs[] = {
     "pinfo",
     "echo",
     "history",
+    "jobs",
 };
 
 // built in command functions
@@ -42,6 +44,7 @@ void (*builtInComExec[])(Command c) = {
     pinfoExec,
     echo,
     historyExec,
+    jobs,
 };
 
 void execCommand(Command c)
