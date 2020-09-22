@@ -4,7 +4,7 @@
 void jobsExec(Command c)
 {
     if (c.argc)
-        fprintf(stderr, "jobs command takes no args; Usage jobs");
+        fprintf(stderr, "jobs command takes no args; Usage jobs\n");
     else
         jobs();
 }

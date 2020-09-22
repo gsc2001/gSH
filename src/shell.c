@@ -11,6 +11,7 @@
 #include "signalHandlers.h"
 #include "history.h"
 #include "jobs.h"
+#include "fg.h"
 
 void init()
 {
@@ -24,7 +25,7 @@ void init()
     signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
 }
-const int builtInN = 7;
+const int builtInN = 8;
 
 const char *builtInComs[] = {
     "pwd",
@@ -34,6 +35,7 @@ const char *builtInComs[] = {
     "echo",
     "history",
     "jobs",
+    "fg",
 };
 
 // built in command functions
@@ -44,7 +46,8 @@ void (*builtInComExec[])(Command c) = {
     pinfoExec,
     echo,
     historyExec,
-    jobs,
+    jobsExec,
+    fgExec,
 };
 
 void execCommand(Command c)

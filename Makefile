@@ -60,12 +60,14 @@ $(BUILD)/signalHandlers.o: $(SRC)/signalHandlers.c $(INC)/signalHandlers.h $(INC
 $(BUILD)/history.o: $(SRC)/history.c $(INC)/history.h $(INC)/globals.h $(INC)/utils.h $(INC)/errorHandler.h
 	$(COMMAND)  -o $(BUILD)/history.o -c $(SRC)/history.c
 
-$(BUILD)/processList.o: $(SRC)/processList.c $(INC)/processList.h
+$(BUILD)/processList.o: $(SRC)/processList.c $(INC)/processList.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/processList.o -c $(SRC)/processList.c
 
-$(BUILD)/jobs.o: $(SRC)/jobs.c $(INC)/jobs.h $(INC)/processList.h
+$(BUILD)/jobs.o: $(SRC)/jobs.c $(INC)/jobs.h $(INC)/processList.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/jobs.o -c $(SRC)/jobs.c
 
+$(BUILD)/fg.o: $(SRC)/fg.c $(INC)/fg.h $(INC)/processList.h $(INC)/utils.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/fg.o -c $(SRC)/fg.c
 	
 clean: 
 	rm $(BUILD)/* gSH
