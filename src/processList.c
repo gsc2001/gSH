@@ -19,6 +19,28 @@ Process findProcess(pid_t pid)
     return p;
 }
 
+Process findProcessJobNo(int job_no)
+{
+    Process p = {.id = -1, .name = NULL};
+    Node *i = head;
+
+    if (!i || job_no <= 0)
+        return p;
+    // roll back
+    while (i->prev)
+        i = i->prev;
+
+    job_no--;
+    while (job_no && i)
+    {
+        i = i->next;
+        job_no--;
+    }
+    if (i)
+        initProcess(&p, i->p.id, i->p.name);
+    return p;
+}
+
 void insertProcess(Process p)
 {
     Node *node = (Node *)malloc(sizeof(Node));

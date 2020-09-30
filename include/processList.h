@@ -21,6 +21,9 @@ void removeProcess(pid_t pid);
 // get a process with given pid
 Process findProcess(pid_t pid);
 
+// get a process with given job number
+Process findProcessJobNo(int job_no);
+
 // print processes
 void printProcesses();
 #endif // __LIST_H

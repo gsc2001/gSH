@@ -13,8 +13,11 @@ void sigchldHandler(int sig)
     int found = p.name != NULL;
 
     if (found)
+    {
         // remove the proces from list
+        fprintf(stderr, "HI\n");
         removeProcess(pid);
+    }
 
     char *exitType = (char *)malloc(15);
 

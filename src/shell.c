@@ -12,6 +12,7 @@
 #include "history.h"
 #include "jobs.h"
 #include "fg.h"
+#include "bg.h"
 
 void init()
 {
@@ -25,7 +26,7 @@ void init()
     signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
 }
-const int builtInN = 8;
+const int builtInN = 9;
 
 const char *builtInComs[] = {
     "pwd",
@@ -36,6 +37,7 @@ const char *builtInComs[] = {
     "history",
     "jobs",
     "fg",
+    "bg",
 };
 
 // built in command functions
@@ -48,6 +50,7 @@ void (*builtInComExec[])(Command c) = {
     historyExec,
     jobsExec,
     fgExec,
+    bgExec,
 };
 
 void execCommand(Command c)

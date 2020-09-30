@@ -10,5 +10,5 @@ brief: fg command implementation
 void fgExec(Command c);
 
 // fg implementation
-void fg(pid_t pid);
+void fg(int job_no);
 #endif // __FG_H

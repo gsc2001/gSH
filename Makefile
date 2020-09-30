@@ -69,5 +69,8 @@ $(BUILD)/jobs.o: $(SRC)/jobs.c $(INC)/jobs.h $(INC)/processList.h $(INC)/globals
 $(BUILD)/fg.o: $(SRC)/fg.c $(INC)/fg.h $(INC)/processList.h $(INC)/utils.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/fg.o -c $(SRC)/fg.c
 	
+$(BUILD)/bg.o: $(SRC)/bg.c $(INC)/bg.h $(INC)/processList.h $(INC)/utils.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/bg.o -c $(SRC)/bg.c
+
 clean: 
 	rm $(BUILD)/* gSH
