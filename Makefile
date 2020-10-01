@@ -78,5 +78,8 @@ $(BUILD)/env.o: $(SRC)/env.c $(INC)/env.h $(INC)/errorHandler.h $(INC)/utils.h $
 $(BUILD)/kjob.o: $(SRC)/kjob.c $(INC)/kjob.h $(INC)/errorHandler.h $(INC)/utils.h $(INC)/globals.h $(INC)/processList.h
 	$(COMMAND)  -o $(BUILD)/kjob.o -c $(SRC)/kjob.c
 
+$(BUILD)/piping.o: $(SRC)/piping.c $(INC)/piping.h $(INC)/errorHandler.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/piping.o -c $(SRC)/piping.c
+
 clean: 
 	rm $(BUILD)/* gSH

@@ -63,3 +63,17 @@ void initProcess(Process *loc, pid_t pid, char *name)
     loc->name[0] = '\0';
     strcpy(loc->name, name);
 }
+
+int splitString(char **strs, char *str, char *delim)
+{
+    int n = 0;
+    char *token = strtok(str, delim);
+    while (token)
+    {
+        strs[n] = (char *)malloc(strlen(token) + 1);
+        strcpy(strs[n++], token);
+        token = strtok(NULL, delim);
+    }
+    free(token);
+    return n;
+}

@@ -21,4 +21,7 @@ int noOfFlags(char **args, int n);
 
 // init process loc with id pid and name name
 void initProcess(Process *loc, pid_t pid, char *name);
+
+// spilt str into strs using delim as the delimeter and return the count
+int splitString(char **strs, char *str, char *delim);
 #endif // __UTILS_H

@@ -39,26 +39,38 @@ Command parseCommand(char *command_raw)
     return command;
 }
 
-ParsedCommands parse(char *inp)
+PipedCommands parsePiped(char *pipedCommand)
 {
-    replaceTabs(inp);
-    char *commands[MAX_LEN];
-    int nCommands = 0;
-    char *token = strtok(inp, ";");
-    while (token)
-    {
-        commands[nCommands++] = token;
-        token = strtok(NULL, ";");
-    }
-
-    ParsedCommands parsed;
-    parsed.n = nCommands;
-    parsed.commands = (Command *)malloc(nCommands * sizeof(Command));
+    char **commands = (char **)malloc(MAX_LEN * sizeof(char *));
+    int nCommands = splitString(commands, pipedCommand, "|");
+    PipedCommands piped;
+    piped.n = nCommands;
+    piped.commands = (Command *)malloc(nCommands * sizeof(Command));
     for (int i = 0; i < nCommands; i++)
     {
         if (!strlen(commands[i]))
             continue;
-        parsed.commands[i] = parseCommand(commands[i]);
+        piped.commands[i] = parseCommand(commands[i]);
+        free(commands[i]);
+    }
+
+    return piped;
+}
+
+ParsedCommands parse(char *inp)
+{
+    replaceTabs(inp);
+    char **pipedCommands = (char **)malloc(MAX_LEN * sizeof(char *));
+    int nPiped = splitString(pipedCommands, inp, ";");
+    ParsedCommands parsed;
+    parsed.n = nPiped;
+    parsed.piped = (PipedCommands *)malloc(nPiped * sizeof(PipedCommands));
+    for (int i = 0; i < nPiped; i++)
+    {
+        if (!strlen(pipedCommands[i]))
+            continue;
+        parsed.piped[i] = parsePiped(pipedCommands[i]);
+        free(pipedCommands[i]);
     }
     return parsed;
 }

@@ -15,6 +15,7 @@
 #include "bg.h"
 #include "env.h"
 #include "kjob.h"
+#include "piping.h"
 
 void init()
 {
@@ -25,7 +26,7 @@ void init()
 
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
-    signal(SIGINT, sigintHandler);
+    // signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
 }
 const int builtInN = 12;
@@ -107,40 +108,32 @@ void repl()
 
         // parse inp
         ParsedCommands parsed = parse(inpCopy);
+
         if (DEBUG)
         {
-            fprintf(stderr, "\n\n\n\n===========DEBUG===========\n");
-            fprintf(stderr, "n=%d", parsed.n);
+            fprintf(stderr, "\n\n=================DEBUG==============\n\n");
+            fprintf(stderr, "nPipes=%d\n", parsed.n);
             for (int i = 0; i < parsed.n; i++)
             {
-                Command com_ = parsed.commands[i];
-                fprintf(stderr, "\n---------------------------------------\n");
-                fprintf(stderr, "cmd = %s; argc=%d; bg=%d\n", com_.cmd, com_.argc, com_.bg);
-                fprintf(stderr, "Args -> ");
-                for (int j = 0; j < com_.argc; j++)
-                    fprintf(stderr, "%s,", com_.args[j]);
-                fprintf(stderr, "\n----------------------------------------\n");
-            }
-            fprintf(stderr, "==========================\n\n\n\n");
-        }
-        for (int i = 0; i < parsed.n; i++)
-        {
-            if (parsed.commands[i].cmd)
-            {
-                // check if exit
-                if (!strcmp(parsed.commands[i].cmd, "exit"))
+                PipedCommands piped = parsed.piped[i];
+                fprintf(stderr, "pipedN=%d\n", piped.n);
+                for (int j = 0; j < piped.n; j++)
                 {
-                    free(prompt);
-                    free(parsed.commands);
-                    free(inpCopy);
-                    return;
+                    Command com = piped.commands[j];
+                    fprintf(stderr, "cmd=%s, argc=%d, backround=%d\n", com.cmd, com.argc, com.bg);
+                    fprintf(stderr, "args->");
+                    for (int k = 0; k < com.argc; k++)
+                        fprintf(stderr, "%s,", com.args[k]);
+                    fprintf(stderr, "\n");
                 }
-                execCommand(parsed.commands[i]);
             }
+            fprintf(stderr, "\n\n==============END====================\n\n");
         }
 
+        for (int i = 0; i < parsed.n; i++)
+            execPiped(parsed.piped[i]);
+
         //cleanup
-        free(parsed.commands);
         free(prompt);
         free(inpCopy);
     }

@@ -26,18 +26,34 @@
 #define DEBUG 0
 #endif
 
+// The basic struct of command
+// cmd args1 args2 <inp > out ... &
 typedef struct Command
 {
     int argc;
     char *cmd;
     char **args;
     int bg;
+
+    // for inp and out redirection
+    char *inp;
+    char *out;
 } Command;
 
-typedef struct ParsedCommands
+// piped commands
+// cmd1 | cmd 2 | cmd 3
+typedef struct PipedCommands
 {
     int n;
     Command *commands;
+} PipedCommands;
+
+// commands broken into PipedCommands (break on ;)
+// pipe1; pipe2
+typedef struct ParsedCommands
+{
+    int n;
+    PipedCommands *piped;
 } ParsedCommands;
 
 typedef struct Process

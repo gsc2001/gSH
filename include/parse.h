@@ -13,4 +13,7 @@ ParsedCommands parse(char *inp);
 // Parse Command from command string
 Command parseCommand(char *command_);
 
+// Parse PipedCommands from pipedCommands string
+PipedCommands parsePiped(char *pipedCommands);
+
 #endif // __PARSE_H
