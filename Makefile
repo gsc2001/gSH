@@ -75,5 +75,8 @@ $(BUILD)/bg.o: $(SRC)/bg.c $(INC)/bg.h $(INC)/processList.h $(INC)/utils.h $(INC
 $(BUILD)/env.o: $(SRC)/env.c $(INC)/env.h $(INC)/errorHandler.h $(INC)/utils.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/env.o -c $(SRC)/env.c
 
+$(BUILD)/kjob.o: $(SRC)/kjob.c $(INC)/kjob.h $(INC)/errorHandler.h $(INC)/utils.h $(INC)/globals.h $(INC)/processList.h
+	$(COMMAND)  -o $(BUILD)/kjob.o -c $(SRC)/kjob.c
+
 clean: 
 	rm $(BUILD)/* gSH

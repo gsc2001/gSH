@@ -15,7 +15,6 @@ void sigchldHandler(int sig)
     if (found)
     {
         // remove the proces from list
-        fprintf(stderr, "HI\n");
         removeProcess(pid);
     }
 
