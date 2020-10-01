@@ -72,5 +72,8 @@ $(BUILD)/fg.o: $(SRC)/fg.c $(INC)/fg.h $(INC)/processList.h $(INC)/utils.h $(INC
 $(BUILD)/bg.o: $(SRC)/bg.c $(INC)/bg.h $(INC)/processList.h $(INC)/utils.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/bg.o -c $(SRC)/bg.c
 
+$(BUILD)/env.o: $(SRC)/env.c $(INC)/env.h $(INC)/errorHandler.h $(INC)/utils.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/env.o -c $(SRC)/env.c
+
 clean: 
 	rm $(BUILD)/* gSH

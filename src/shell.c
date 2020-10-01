@@ -13,6 +13,7 @@
 #include "jobs.h"
 #include "fg.h"
 #include "bg.h"
+#include "env.h"
 
 void init()
 {
@@ -26,7 +27,7 @@ void init()
     signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
 }
-const int builtInN = 9;
+const int builtInN = 11;
 
 const char *builtInComs[] = {
     "pwd",
@@ -38,6 +39,8 @@ const char *builtInComs[] = {
     "jobs",
     "fg",
     "bg",
+    "setenv",
+    "unsetenv",
 };
 
 // built in command functions
@@ -51,6 +54,8 @@ void (*builtInComExec[])(Command c) = {
     jobsExec,
     fgExec,
     bgExec,
+    setenvExec,
+    unsetenvExec,
 };
 
 void execCommand(Command c)
