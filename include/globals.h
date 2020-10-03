@@ -71,4 +71,6 @@ char *HOME;
 // global stdin and stdout save
 int stdoutSaveGlobal;
 
+char *lastDir;
+
 #endif // __GLOBAL_H

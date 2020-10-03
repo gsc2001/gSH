@@ -50,7 +50,7 @@ int noOfFlags(char **args, int n)
     int cnt = 0;
     for (int i = 0; i < n; i++)
     {
-        if (args[i][0] == '-')
+        if (args[i][0] == '-' && (strlen(args[i]) > 1))
             cnt++;
     }
     return cnt;

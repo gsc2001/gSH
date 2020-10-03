@@ -32,6 +32,7 @@ void init()
 
     // saving stdout and stdin
     stdoutSaveGlobal = dup(STDOUT_FILENO);
+    lastDir = NULL;
 }
 const int builtInN = 13;
 
@@ -158,4 +159,5 @@ void byebye()
 {
     close(stdoutSaveGlobal);
     saveHistory();
+    free(lastDir);
 }

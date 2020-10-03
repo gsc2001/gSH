@@ -17,5 +17,30 @@ void cdExec(Command c)
 void cd(char *path)
 {
     path = replaceTilda(path);
-    handleSyscallint(chdir(path), path);
+    if (!strcmp(path, "-"))
+    {
+        if (!lastDir)
+        {
+            printf("%s\n", HOME);
+            return;
+        }
+        path = lastDir;
+        printf("%s\n", path);
+    }
+
+    char *cwd = (char *)malloc(MAX_LEN);
+    char *wd = handleSyscallchar(getcwd(cwd, MAX_LEN - 1), "Error getting cwd");
+    if (wd == NULL)
+    {
+        free(cwd);
+        cwd = NULL;
+    }
+    int done = handleSyscallint(chdir(path), path);
+    if (done == 0 && cwd != NULL)
+    {
+        if (!lastDir)
+            lastDir = (char *)malloc(MAX_LEN);
+        strcpy(lastDir, cwd);
+        free(cwd);
+    }
 }
