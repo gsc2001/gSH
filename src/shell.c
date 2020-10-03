@@ -16,6 +16,7 @@
 #include "env.h"
 #include "kjob.h"
 #include "piping.h"
+#include "redirecting.h"
 
 void init()
 {
@@ -26,10 +27,13 @@ void init()
 
     // signal handlers
     signal(SIGCHLD, sigchldHandler);
-    // signal(SIGINT, sigintHandler);
+    signal(SIGINT, sigintHandler);
     signal(SIGTSTP, sigtstpHandler);
+
+    // saving stdout and stdin
+    stdoutSaveGlobal = dup(STDOUT_FILENO);
 }
-const int builtInN = 12;
+const int builtInN = 13;
 
 const char *builtInComs[] = {
     "pwd",
@@ -44,6 +48,7 @@ const char *builtInComs[] = {
     "setenv",
     "unsetenv",
     "kjob",
+    "exit",
 };
 
 // built in command functions
@@ -65,7 +70,7 @@ void (*builtInComExec[])(Command c) = {
 void execCommand(Command c)
 {
     int commandIndex = -1;
-
+    redirectBegin(c);
     for (int i = 0; i < builtInN; i++)
     {
         if (!strcmp(c.cmd, builtInComs[i]))
@@ -76,17 +81,26 @@ void execCommand(Command c)
     }
 
     if (commandIndex != -1)
+    {
+        if (commandIndex == 12)
+        {
+            // exit
+            byebye();
+            exit(0);
+        }
+
         builtInComExec[commandIndex](c);
+    }
     else
     {
         execSys(c);
     }
+    redirectRestore();
 }
 
 void repl()
 {
-    size_t inpsize;
-    char *inp = 0;
+    char *inp = NULL;
     size_t bufsize = 0;
 
     while (1)
@@ -94,8 +108,8 @@ void repl()
         char *prompt = get_prompt();
         printf("%s", prompt);
         fflush(stdout);
-        inpsize = getline(&inp, &bufsize, stdin);
-        if (inpsize < 0)
+        int len = getline(&inp, &bufsize, stdin);
+        if (len < 0)
             break;
         inp[strlen(inp) - 1] = '\0';
 
@@ -120,7 +134,8 @@ void repl()
                 for (int j = 0; j < piped.n; j++)
                 {
                     Command com = piped.commands[j];
-                    fprintf(stderr, "cmd=%s, argc=%d, backround=%d\n", com.cmd, com.argc, com.bg);
+                    fprintf(stderr, "cmd=%s, argc=%d, backround=%d, inp=%s, out=%s, append=%d\n",
+                            com.cmd, com.argc, com.bg, com.inp ? com.inp : "STDIN", com.out ? com.out : "STDOUT", com.append);
                     fprintf(stderr, "args->");
                     for (int k = 0; k < com.argc; k++)
                         fprintf(stderr, "%s,", com.args[k]);
@@ -141,5 +156,6 @@ void repl()
 
 void byebye()
 {
+    close(stdoutSaveGlobal);
     saveHistory();
 }

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <fcntl.h>
 
 #ifndef __GLOBAL_H
 #define __GLOBAL_H
@@ -38,6 +39,9 @@ typedef struct Command
     // for inp and out redirection
     char *inp;
     char *out;
+
+    // is out for appending ?
+    int append;
 } Command;
 
 // piped commands
@@ -63,5 +67,8 @@ typedef struct Process
 } Process;
 
 char *HOME;
+
+// global stdin and stdout save
+int stdoutSaveGlobal;
 
 #endif // __GLOBAL_H

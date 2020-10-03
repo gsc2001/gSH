@@ -15,6 +15,9 @@ void execSys(Command c)
     // fork
     pid_t forkReturn = handleSyscallint(fork(), "Error forking");
 
+    if (forkReturn < 0)
+        return;
+
     if (forkReturn == 0)
     {
         // child process
@@ -27,6 +30,9 @@ void execSys(Command c)
         int status;
         if (c.bg)
         {
+            // to print the pid to shell
+            dup2(stdoutSaveGlobal, STDOUT_FILENO);
+
             Process p;
             initProcess(&p, forkReturn, argv[0]);
             insertProcess(p);

@@ -81,5 +81,8 @@ $(BUILD)/kjob.o: $(SRC)/kjob.c $(INC)/kjob.h $(INC)/errorHandler.h $(INC)/utils.
 $(BUILD)/piping.o: $(SRC)/piping.c $(INC)/piping.h $(INC)/errorHandler.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/piping.o -c $(SRC)/piping.c
 
+$(BUILD)/redirecting.o: $(SRC)/redirecting.c $(INC)/redirecting.h $(INC)/errorHandler.h $(INC)/globals.h
+	$(COMMAND)  -o $(BUILD)/redirecting.o -c $(SRC)/redirecting.c
+	
 clean: 
 	rm $(BUILD)/* gSH

@@ -9,6 +9,9 @@ Command parseCommand(char *command_raw)
 
     Command command;
     command.args = NULL;
+    command.inp = NULL;
+    command.out = NULL;
+    command.append = 0;
     command.bg = 0;
     command.cmd = strtok(command_, " ");
     if (command.cmd == NULL)
@@ -20,12 +23,35 @@ Command parseCommand(char *command_raw)
     arg = strtok(NULL, " ");
 
     // loop over args
+    int isInp = 0, isOut = 0;
     while (arg)
     {
-        if (!strlen(arg))
-            continue;
-
-        args_[command.argc++] = arg;
+        if (strlen(arg))
+        {
+            if (!strcmp(arg, "<") && isInp == 0)
+                isInp = 1;
+            else if (!strcmp(arg, ">") && isOut == 0)
+                isOut = 1;
+            else if (!strcmp(arg, ">>") && isOut == 0)
+            {
+                isOut = 1;
+                command.append = 1;
+            }
+            else if (isInp == 1)
+            {
+                isInp++;
+                command.inp = (char *)malloc(strlen(arg) + 1);
+                strcpy(command.inp, arg);
+            }
+            else if (isOut == 1)
+            {
+                isOut++;
+                command.out = (char *)malloc(strlen(arg) + 1);
+                strcpy(command.out, arg);
+            }
+            else
+                args_[command.argc++] = arg;
+        }
         arg = strtok(NULL, " ");
     }
     if (command.argc > 0 && !strcmp(args_[command.argc - 1], "&"))

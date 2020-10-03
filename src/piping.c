@@ -30,13 +30,13 @@ void execPiped(PipedCommands piped)
         {
             // inp from pipes[n-2][0] and out to STDOUT
             dup2(pipes[i - 1][0], STDIN_FILENO);
-
             dup2(stdoutSave, STDOUT_FILENO);
             execCommand(piped.commands[i]);
             handleSyscallint(close(pipes[i - 1][0]), "Closing pipe read end");
         }
         else
         {
+            // inp from pipes[i-1][0] and out to pipes[i][1]
             dup2(pipes[i - 1][0], STDIN_FILENO);
             dup2(pipes[i][1], STDOUT_FILENO);
             execCommand(piped.commands[i]);

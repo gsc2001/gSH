@@ -64,14 +64,29 @@ void initProcess(Process *loc, pid_t pid, char *name)
     strcpy(loc->name, name);
 }
 
+int checkEmpty(char *token)
+{
+    int l = strlen(token);
+    for (int i = 0; i < l; i++)
+    {
+        if (token[i] != ' ')
+            return 0;
+    }
+
+    return 1;
+}
+
 int splitString(char **strs, char *str, char *delim)
 {
     int n = 0;
     char *token = strtok(str, delim);
     while (token)
     {
-        strs[n] = (char *)malloc(strlen(token) + 1);
-        strcpy(strs[n++], token);
+        if (!checkEmpty(token))
+        {
+            strs[n] = (char *)malloc(strlen(token) + 1);
+            strcpy(strs[n++], token);
+        }
         token = strtok(NULL, delim);
     }
     free(token);
