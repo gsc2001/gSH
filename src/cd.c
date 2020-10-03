@@ -4,10 +4,17 @@
 
 void cdExec(Command c)
 {
+    exitCode = 0;
     if (c.argc > 1)
+    {
         fprintf(stderr, "cd: too many args; Usage: cd dir\n");
+        exitCode = 1;
+    }
     else if (noOfFlags(c.args, c.argc))
+    {
         fprintf(stderr, "cd: no flags allowed; Usage: cd dir\n");
+        exitCode = 1;
+    }
     else if (c.argc == 0)
         cd(HOME);
     else
@@ -34,6 +41,7 @@ void cd(char *path)
     {
         free(cwd);
         cwd = NULL;
+        exitCode = 1;
     }
     int done = handleSyscallint(chdir(path), path);
     if (done == 0 && cwd != NULL)

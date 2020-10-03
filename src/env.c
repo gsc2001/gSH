@@ -4,8 +4,12 @@
 
 void setenvExec(Command c)
 {
+    exitCode = 0;
     if (!c.argc || c.argc > 2 || noOfFlags(c.args, c.argc))
+    {
         fprintf(stderr, "Wrong format for setenv; Usage setenv var [value]\n");
+        exitCode = 1;
+    }
     else
     {
         if (c.argc == 1)
@@ -17,8 +21,12 @@ void setenvExec(Command c)
 
 void unsetenvExec(Command c)
 {
+    exitCode = 0;
     if (!(c.argc == 1) || noOfFlags(c.args, c.argc))
+    {
         fprintf(stderr, "Wrong format for setenv; Usage setenv var [value]\n");
+        exitCode = 1;
+    }
     else
         handleSyscallint(unsetenv(c.args[0]), "Error unsetting env variable");
 }

@@ -17,7 +17,7 @@ void sigchldHandler(int sig)
         // remove the proces from list
         removeProcess(pid);
     }
-
+    exitCode = -1;
     char *exitType = (char *)malloc(15);
 
     strcpy(exitType, ((WIFEXITED(status) && (WEXITSTATUS(status) == EXIT_SUCCESS)) ? "normally" : "abnormally"));

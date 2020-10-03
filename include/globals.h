@@ -19,6 +19,7 @@
 // colors
 #define COL_BLU "\033[34;1m"
 #define COL_GRN "\033[32;1m"
+#define COL_RED "\033[31;1m"
 #define COL_WHT "\033[0m"
 
 #ifdef DEBUG
@@ -72,5 +73,8 @@ char *HOME;
 int stdoutSaveGlobal;
 
 char *lastDir;
+
+// exit codes for processes
+int exitCode;
 
 #endif // __GLOBAL_H

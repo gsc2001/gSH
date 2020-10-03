@@ -4,14 +4,21 @@
 
 void pinfoExec(Command c)
 {
+    exitCode = 0;
     if (noOfFlags(c.args, c.argc))
+    {
         fprintf(stderr, "pinfo: Flags not allowed; Usage pinfo [pid]\n");
+        exitCode = 1;
+    }
     else if (c.argc == 0)
         pinfo("self");
     else if (c.argc == 1)
         pinfo(c.args[0]);
     else
+    {
         fprintf(stderr, "pinfo: Too many arguments; Usage pinfo [pid]\n");
+        exitCode = 1;
+    }
 }
 
 void pinfo(char *pid)
@@ -28,6 +35,7 @@ void pinfo(char *pid)
         fprintf(stderr, "Process with pid %s not found\n", pid);
         free(procDir);
         free(statusFile);
+        exitCode = 1;
         return;
     }
     char *state = (char *)malloc(5);
@@ -61,13 +69,18 @@ void pinfo(char *pid)
     sprintf(executableFile, "%s/exe", procDir);
     char *exec = (char *)malloc(MAX_LEN);
     int sz = handleSyscallint(readlink(executableFile, exec, MAX_LEN - 1), "reading exectuble link");
-    exec[sz] = '\0';
-    exec = replaceHomeDir(exec);
-    // output
-    printf("pid -- %s\n", pid_);
-    printf("Process Status -- %s\n", state);
-    printf("memory -- %s\n", vmSize);
-    printf("Executable file -- %s\n", exec);
+    if (sz >= 0)
+    {
+        exec[sz] = '\0';
+        exec = replaceHomeDir(exec);
+        // output
+        printf("pid -- %s\n", pid_);
+        printf("Process Status -- %s\n", state);
+        printf("memory -- %s\n", vmSize);
+        printf("Executable file -- %s\n", exec);
+    }
+    else
+        exitCode = 1;
 
     // final cleanup
     free(procDir);
