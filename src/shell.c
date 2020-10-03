@@ -17,6 +17,7 @@
 #include "kjob.h"
 #include "piping.h"
 #include "redirecting.h"
+#include "overkill.h"
 
 void init()
 {
@@ -35,7 +36,7 @@ void init()
     lastDir = NULL;
     exitCode = -1;
 }
-const int builtInN = 13;
+const int builtInN = 14;
 
 const char *builtInComs[] = {
     "pwd",
@@ -50,7 +51,8 @@ const char *builtInComs[] = {
     "setenv",
     "unsetenv",
     "kjob",
-    "exit",
+    "overkill",
+    "quit",
 };
 
 // built in command functions
@@ -67,6 +69,7 @@ void (*builtInComExec[])(Command c) = {
     setenvExec,
     unsetenvExec,
     kjobExec,
+    overkillExec,
 };
 
 void execCommand(Command c)
@@ -84,7 +87,7 @@ void execCommand(Command c)
 
     if (commandIndex != -1)
     {
-        if (commandIndex == 12)
+        if (commandIndex == 13)
         {
             // exit
             byebye();

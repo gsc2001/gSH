@@ -84,5 +84,7 @@ $(BUILD)/piping.o: $(SRC)/piping.c $(INC)/piping.h $(INC)/errorHandler.h $(INC)/
 $(BUILD)/redirecting.o: $(SRC)/redirecting.c $(INC)/redirecting.h $(INC)/errorHandler.h $(INC)/globals.h
 	$(COMMAND)  -o $(BUILD)/redirecting.o -c $(SRC)/redirecting.c
 	
+$(BUILD)/overkill.o: $(SRC)/overkill.c $(INC)/overkill.h $(INC)/errorHandler.h $(INC)/globals.h $(INC)/processList.h
+	$(COMMAND)  -o $(BUILD)/overkill.o -c $(SRC)/overkill.c
 clean: 
 	rm $(BUILD)/* gSH

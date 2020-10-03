@@ -1,5 +1,6 @@
 #include "processList.h"
 #include "utils.h"
+#include "errorHandler.h"
 
 Node *head = NULL;
 
@@ -127,4 +128,14 @@ void printProcesses()
 
     free(statusFile);
     free(buf);
+}
+
+void killAllProcesses()
+{
+    Node *i = head;
+    while (i)
+    {
+        handleSyscallint(kill(i->p.id, SIGINT), "Killing");
+        i = i->prev;
+    }
 }
