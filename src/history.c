@@ -51,14 +51,21 @@ void addToHistory(char *command)
 
 void historyExec(Command c)
 {
+    exitCode = 0;
     if (noOfFlags(c.args, c.argc))
+    {
         fprintf(stderr, "history does not take any flags; Usage history [n]\n");
+        exitCode = 1;
+    }
     else if (!c.argc)
         history(10);
     else if (c.argc == 1)
         history(atoi(c.args[0]));
     else
+    {
         fprintf(stderr, "too many arguments for history; Usage history [n]\n");
+        exitCode = 1;
+    }
 }
 
 void history(int max_n)
@@ -71,6 +78,7 @@ void history(int max_n)
     if (max_n > HISTORY_SZ)
     {
         fprintf(stderr, "argument of history can be at max 20\n");
+        exitCode = 1;
         return;
     }
     int i = 0;

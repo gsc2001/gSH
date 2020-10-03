@@ -33,6 +33,7 @@ void init()
     // saving stdout and stdin
     stdoutSaveGlobal = dup(STDOUT_FILENO);
     lastDir = NULL;
+    exitCode = -1;
 }
 const int builtInN = 13;
 

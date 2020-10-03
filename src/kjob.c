@@ -5,9 +5,11 @@
 
 void kjobExec(Command c)
 {
+    exitCode = 0;
     if (c.argc != 2 || noOfFlags(c.args, c.argc))
     {
         fprintf(stderr, "Wrong format; Usage kjob jobNo sigNo\n");
+        exitCode = 1;
     }
     else
     {
@@ -21,6 +23,7 @@ void kjob(int jobNo, int sig)
     if (p.name == NULL)
     {
         fprintf(stderr, "job %d not found\n", jobNo);
+        exitCode = 1;
         return;
     }
     handleSyscallint(kill(p.id, sig), "kjob");

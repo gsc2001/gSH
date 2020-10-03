@@ -26,6 +26,7 @@ struct stat statBuf;
 
 void lsExec(Command c)
 {
+    exitCode = 0;
     LsOpts lsopts;
     lsopts.l = 0, lsopts.a = 0;
     int nFlags = noOfFlags(c.args, c.argc);
@@ -37,9 +38,15 @@ void lsExec(Command c)
                 lsopts.l = 1;
             else if (c.args[i][1] == 'a' && (strlen(c.args[i]) == 2))
                 lsopts.a = 1;
+            else if (((c.args[i][1] == 'a' && c.args[i][2] == 'l') || (c.args[i][1] == 'l' && c.args[i][2] == 'a')) && strlen(c.args[i]) == 3)
+            {
+                lsopts.a = 1;
+                lsopts.l = 1;
+            }
             else
             {
                 fprintf(stderr, "ls: Unknown option %s; Usage ls [-l] [-a] dir1 dir2 ...\n", c.args[i]);
+                exitCode = 1;
                 return;
             }
         }
@@ -166,7 +173,10 @@ void ls(char *path, LsOpts lsopts)
         nItems = handleSyscallint(scandir(path, &items, hidden, alphasort), path);
 
     if (nItems < 0)
+    {
+        exitCode = 1;
         return;
+    }
 
     if (!lsopts.l)
     {

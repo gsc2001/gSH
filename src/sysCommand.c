@@ -5,6 +5,7 @@
 
 void execSys(Command c)
 {
+    exitCode = 0;
     char *argv[c.argc + 2];
 
     argv[0] = c.cmd;
@@ -16,7 +17,10 @@ void execSys(Command c)
     pid_t forkReturn = handleSyscallint(fork(), "Error forking");
 
     if (forkReturn < 0)
+    {
+        exitCode = 1;
         return;
+    }
 
     if (forkReturn == 0)
     {
@@ -66,7 +70,10 @@ void execSys(Command c)
                 Process p;
                 initProcess(&p, forkReturn, argv[0]);
                 insertProcess(p);
+                exitCode = 1;
             }
+            if (!WIFEXITED(status) || WEXITSTATUS(status) == EXIT_FAILURE)
+                exitCode = 1;
         }
     }
 }
