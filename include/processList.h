@@ -26,4 +26,7 @@ Process findProcessJobNo(int job_no);
 
 // print processes
 void printProcesses();
+
+// kill all
+void killAllProcesses();
 #endif // __LIST_H
