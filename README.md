@@ -55,7 +55,7 @@ The project contains the following folder with files described:
 The following files are in `src` directory. The corresponding `.h` files can be found in `include` directory. `.h` files also contain brief description.
 
 -   `main.c`: File with `main()` .Calls init ,repl and destroy functions. (This file does not has a corresponding `.h` file)
--   `parse.c`: File with functions to take raw input string and parse it. Stores `;` seperated commands in `Command` struct and collection of all commands in input string in `ParsedCommands` struct
+-   `parse.c`: File with functions to take raw input string and parse it.First seperates at `";"` for `PipedCommands` struct then seperates at `"|"` to extract `Command` and returns a struct `ParsedCommands` with all neccessary things.
 -   `shell.c`: File with init, repl, byebye function. This also has function to execute `ParsedCommands` using corresponding executor
 -   `prompt.c`: File with function to return prompt string.
 -   `cd.c`: File with cd command implementation and executor
@@ -66,5 +66,14 @@ The following files are in `src` directory. The corresponding `.h` files can be 
 -   `errorHandler.c`: File with error handlers for syscalls
 -   `history.c`: File with history command implementation and executor. This file also contains functions to add a command to history, save history and load history
 -   `sysCommand.c`: File with function for execution of non-builtin commands in foreground or background
--   `signalHandlers.c`: File with signal handlers. For now handler only for `SIGCHLD` signal
+-   `signalHandlers.c`: File with signal handlers.
 -   `utils.c`: File with some utility functions
+-   `bg.c`: File with bg functionality
+-   `env.c`: File with some setenv and unsetenv option
+-   `fg.c`: File with fg command implementation and executor
+-   `jobs.c`: File with jobs command implementation and executor
+-   `kjob.c`: File with kjob command implementation and executor
+-   `overkill.c`: File with overkill command implementation and executor
+-   `piping.c`: File with funciton to execute piped commands in `PipedCommands` struct by making pipes between consecutive processes.
+-   `processList.c`: File with functions to handle background process linked list.
+-   `redirecting.c`: File with 2 functions 1st to start I/O redirection and 2nd to restore all STDIN and STDOUT.
