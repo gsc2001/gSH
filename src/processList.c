@@ -135,7 +135,7 @@ void killAllProcesses()
     Node *i = head;
     while (i)
     {
-        handleSyscallint(kill(i->p.id, SIGINT), "Killing");
+        handleSyscallint(kill(i->p.id, SIGKILL), "Killing");
         i = i->prev;
     }
 }
